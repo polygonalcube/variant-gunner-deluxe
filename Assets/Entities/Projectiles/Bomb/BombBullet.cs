@@ -11,7 +11,7 @@ public class BombBullet : MonoBehaviour
     
     void Update()
     {
-        mov.Move();
+        mov.Move(Vector3.down);
         if (doc.willDie == true)
         {
             GameObject newSplode = Instantiate(explosion, transform.position, Quaternion.identity);

@@ -24,7 +24,7 @@ public class BulletBomb : MonoBehaviour
 
     void Update()
     {
-        mov.Move();
+        mov.Move(Vector3.down);
         if (player != null)
         {
             if (transform.position.y < player.position.y)
@@ -47,7 +47,7 @@ public class BulletBomb : MonoBehaviour
                     inner.ShootAng(inner.bulletSpeedAng);
                     inner.shotTimer = 0f;
                 }
-                Destroy(this.gameObject);
+                Destroy(gameObject);
             }
         }
     }

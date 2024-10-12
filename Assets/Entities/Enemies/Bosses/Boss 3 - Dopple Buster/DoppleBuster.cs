@@ -1,13 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class DoppleBuster : MonoBehaviour
 {
     public HPComponent hp;
-    public MoveComponent movEnter;
-    public MoveComponent movAttack;
+    public MoveComponent moveComponentEnter;
+    public MoveComponent moveComponentAttack;
     public ShootComponent bomb;
     public ShootComponent bombUp;
 
@@ -32,9 +30,7 @@ public class DoppleBuster : MonoBehaviour
     {
         if (state == 0) //enter
         {
-            movEnter.ySpeed = movEnter.Accelerate(movEnter.ySpeed, false);
-            movEnter.ySpeed = movEnter.Cap(movEnter.ySpeed);
-            movEnter.Move();
+            moveComponentEnter.Move(Vector3.up);
             if (transform.position.y > finalPosTop.y)
             {
                 transform.position = finalPosTop;
@@ -44,20 +40,18 @@ public class DoppleBuster : MonoBehaviour
         }
         if (state == 1) //bomb down
         {
-            movAttack.ySpeed = 0f;
+            //movAttack.ySpeed = 0f;
             if (player != null)
             {
                 if (player.position.x < transform.position.x)
                 {
-                    movAttack.xSpeed = movAttack.Accelerate(movAttack.xSpeed, true);
+                    moveComponentAttack.Move(Vector3.left);
                 }
                 else if (player.position.x > transform.position.x)
                 {
-                    movAttack.xSpeed = movAttack.Accelerate(movAttack.xSpeed, false);
+                    moveComponentAttack.Move(Vector3.right);
                 }
             }
-            movAttack.xSpeed = movAttack.Cap(movAttack.xSpeed);
-            movAttack.Move();
 
             bomb.Shoot(new Vector2(bomb.bulletSpeed.x, bomb.bulletSpeed.y));
 
@@ -70,10 +64,8 @@ public class DoppleBuster : MonoBehaviour
         }
         if (state == 2) //move to bottom
         {
-            movAttack.xSpeed = 0f;
-            movAttack.ySpeed = movAttack.Accelerate(movAttack.ySpeed, true);
-            movAttack.ySpeed = movAttack.Cap(movAttack.ySpeed);
-            movAttack.Move();
+            //movAttack.xSpeed = 0f;
+            moveComponentAttack.Move(Vector3.down);
             if (transform.position.y < finalPosBot.y)
             {
                 transform.position = new Vector3(transform.position.x, finalPosBot.y, 0f);
@@ -84,20 +76,18 @@ public class DoppleBuster : MonoBehaviour
         }
         if (state == 3) //bomb up
         {
-            movAttack.ySpeed = 0f;
+            //movAttack.ySpeed = 0f;
             if (player != null)
             {
                 if (player.position.x < transform.position.x)
                 {
-                    movAttack.xSpeed = movAttack.Accelerate(movAttack.xSpeed, true);
+                    moveComponentAttack.Move(Vector3.left);
                 }
                 else if (player.position.x > transform.position.x)
                 {
-                    movAttack.xSpeed = movAttack.Accelerate(movAttack.xSpeed, false);
+                    moveComponentAttack.Move(Vector3.right);
                 }
             }
-            movAttack.xSpeed = movAttack.Cap(movAttack.xSpeed);
-            movAttack.Move();
 
             bombUp.Shoot(new Vector2(bombUp.bulletSpeed.x, bombUp.bulletSpeed.y));
 
@@ -110,10 +100,7 @@ public class DoppleBuster : MonoBehaviour
         }
         if (state == 4) //move to top
         {
-            movAttack.xSpeed = 0f;
-            movAttack.ySpeed = movAttack.Accelerate(movAttack.ySpeed, false);
-            movAttack.ySpeed = movAttack.Cap(movAttack.ySpeed);
-            movAttack.Move();
+            moveComponentAttack.Move(Vector3.up);
             if (transform.position.y > finalPosTop.y)
             {
                 transform.position = new Vector3(transform.position.x, finalPosTop.y, 0f);

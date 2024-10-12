@@ -2,36 +2,72 @@ using UnityEngine;
 
 public class MoveComponent : MonoBehaviour
 {
-    public Vector3 moveDirection = Vector3.zero;
-    public float xSpeed;
-    public float ySpeed;
-    public float maxSpeed;
+    //public Vector3 moveDirection = Vector3.zero;
+    //public Vector3 currentSpeed = Vector3.zero;
+    
+    public float currentSpeedX;
+    public float currentSpeedY;
+    public float currentSpeedZ;
+    
+    public Vector3 maximumSpeed = new Vector3(10f, 10f, 10f);
+    
     public float acceleration;
     public float deceleration;
 
-    public float Accelerate(float speedVar, bool isNegative)
+    public void Accelerate(ref float speedVar, float direction)
     {
-        if (isNegative) return speedVar - acceleration;
-        else return speedVar + acceleration;
+        Debug.Log(gameObject.name + ": speedVar before acceleration: " + speedVar);
+        speedVar += acceleration * direction;
+        Debug.Log(gameObject.name + ": Result of acceleration: " + "speedVar: " + speedVar + " direction: " + direction + " acceleration: " + acceleration);
+        //speedVar = -1f;
+        //return speedVar;
     }
 
-    public float Decelerate(float speedVar, bool isNegative)
+    public void Decelerate(ref float speedVar)
     {
-        if (isNegative) return speedVar - acceleration;
-        else return speedVar + acceleration;
+        speedVar += deceleration * Mathf.Sign(-speedVar);
+        if (Mathf.Abs(speedVar) <= deceleration)
+        {
+            speedVar = 0f;
+        }
+        //Debug.Log(gameObject.name + ": Result of deceleration: " + speedVar);
+        //return speedVar;
     }
 
     public float CheckNearZero(float speedVar)
     {
-        if (Mathf.Abs(speedVar) < 0.01f) return 0f;
+        if (Mathf.Abs(speedVar) < 0.01f)
+        {
+            return 0f;
+        }
         else return speedVar;
     }
 
-    public float Cap(float speedVar)
+    public void Cap(ref float speedVar, float speedCap, float direction)
     {
-        if (speedVar > maxSpeed) return maxSpeed;
-        else if (speedVar < -maxSpeed) return -maxSpeed;
-        else return speedVar;
+        bool maxSpeedExceeded = Mathf.Abs(speedVar) > speedCap;
+        bool maxSpeedExceededWithLessThanFullDirectionalInput = 
+            Mathf.Abs(speedVar) > speedCap * Mathf.Abs(direction) && Mathf.Abs(direction) != 0f;
+
+        if (maxSpeedExceeded)
+        {
+            speedVar = speedCap * Mathf.Sign(direction);
+        }
+        else if (maxSpeedExceededWithLessThanFullDirectionalInput)
+        {
+            bool directionalInputMagnitudeLoweredFromPrevious =
+                Mathf.Abs(speedVar) > speedCap * Mathf.Abs(direction) + acceleration;
+            
+            if (directionalInputMagnitudeLoweredFromPrevious)
+            {
+                Decelerate(ref speedVar);
+            }
+            else
+            {
+                speedVar = speedCap * direction;
+            }
+        }
+        //return speedVar;
     }
 
     public void BoundXY(float xBound, float yBound)
@@ -60,14 +96,45 @@ public class MoveComponent : MonoBehaviour
         transform.position = new Vector3(transform.position.x, transform.position.y, 0f);
     }
 
-    public void Move()
+    public void Move(Vector3 moveDirection)
     {
-        moveDirection = new Vector3(xSpeed, ySpeed, 0f);
-        transform.position += moveDirection * Time.deltaTime;
+        if (Mathf.Abs(moveDirection.x) != 0f)
+        {
+            Accelerate(ref currentSpeedX, moveDirection.x);
+        }
+        else
+        {
+            Decelerate(ref currentSpeedX);
+        }
+        
+        if (Mathf.Abs(moveDirection.y) != 0f)
+        {
+            Accelerate(ref currentSpeedY, moveDirection.y);
+        }
+        else
+        {
+            Decelerate(ref currentSpeedY);
+        }
+        
+        if (Mathf.Abs(moveDirection.z) != 0f)
+        {
+            Accelerate(ref currentSpeedZ, moveDirection.z);
+        }
+        else
+        {
+            Decelerate(ref currentSpeedZ);
+        }
+            
+        Cap(ref currentSpeedX, maximumSpeed.x, moveDirection.x);
+        Cap(ref currentSpeedY, maximumSpeed.y, moveDirection.y);
+        Cap(ref currentSpeedZ, maximumSpeed.z, moveDirection.z);
+	
+        transform.position += new Vector3(currentSpeedX, currentSpeedY, currentSpeedZ) * Time.deltaTime;
+        //return new Vector3(currentSpeedX, currentSpeedY, currentSpeedZ) * Time.deltaTime;
     }
 
     public void MoveAng(Vector3 direction)
     {
-        transform.position += transform.TransformDirection(direction) * maxSpeed * Time.deltaTime;
+        transform.position += transform.TransformDirection(direction) * maximumSpeed.x * Time.deltaTime;
     }
 }

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BarrelerEnemy : MonoBehaviour
@@ -10,6 +8,8 @@ public class BarrelerEnemy : MonoBehaviour
     public Transform player;
     Vector3 playerPos;
     public int state;
+
+    public Vector3 attackMoveDirection;
 
     void Start()
     {
@@ -24,7 +24,7 @@ public class BarrelerEnemy : MonoBehaviour
     {
         if (state == 0)
         {
-            movEnter.Move();
+            movEnter.Move(Vector3.up);
             if (player != null)
             {
                 if (transform.position.y > -5f)
@@ -45,10 +45,9 @@ public class BarrelerEnemy : MonoBehaviour
                     Vector3 pointVec = playerPos - transform.position;
                     //pointVec = pointVec.normalized;
                     //Vector3.ClampMagnitude(pointVec, mov.maxSpeed);
-                    pointVec = pointVec * (movAttack.maxSpeed/pointVec.magnitude);
-
-                    movAttack.xSpeed = pointVec.x;
-                    movAttack.ySpeed = pointVec.y;
+                    pointVec = pointVec * (movAttack.maximumSpeed.x/pointVec.magnitude);
+                    attackMoveDirection = new Vector3(pointVec.x, pointVec.y, 0f);
+                    //movAttack.Move();
 
                     state++;
                 }
@@ -69,7 +68,7 @@ public class BarrelerEnemy : MonoBehaviour
         */
         if (state == 1)
         {
-            movAttack.Move();
+            movAttack.Move(attackMoveDirection);
             gun.ShootAng(0f);
             //movAttack.MoveAng(Vector3.up);
         }

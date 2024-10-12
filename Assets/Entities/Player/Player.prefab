@@ -378,7 +378,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d7537ecda57381cd94fe67f3edab18c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 4
+  currenthealth: 0
   maxHealth: 4
 --- !u!114 &8538243980001864241
 MonoBehaviour:
@@ -392,17 +392,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe9f0517e37536e4f953ff8127b1bb99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: {fileID: 8538243980001864242}
-  score: {fileID: 0}
+  healthManager: {fileID: 0}
+  scoreManager: {fileID: 0}
   layers:
     serializedVersion: 2
     m_Bits: 328
+  mr: {fileID: 8844091619110059307}
   damageOverride: 1
   immediateDeath: 0
   hasIFrames: 1
   iSeconds: 0
   iSecondsSet: 1
-  mr: {fileID: 8844091619110059307}
 --- !u!114 &8538243980001864243
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -415,12 +415,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7623d92d693da5d87a03f246569a4322, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveDir: {x: 0, y: 0, z: 0}
-  xSpeed: 0
-  ySpeed: 0
-  maxSpeed: 7
-  accel: 7
-  decel: 7
+  currentSpeedX: 0
+  currentSpeedY: 0
+  currentSpeedZ: 0
+  maximumSpeed: {x: 7, y: 7, z: 0}
+  acceleration: 7
+  deceleration: 7
 --- !u!114 &8538243980001864244
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -441,10 +441,10 @@ MonoBehaviour:
   bulletSpeed: {x: 0, y: 25}
   bulletSpeedAng: 0
   destroyTimer: 2
-  lay: Player Bullets
-  destroyOnContactLays:
+  layer: 
+  destroyOnContactLayers:
     serializedVersion: 2
-    m_Bits: 72
+    m_Bits: 0
 --- !u!114 &8538243980001864249
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -465,8 +465,8 @@ MonoBehaviour:
   bulletSpeed: {x: 10, y: 15}
   bulletSpeedAng: 10
   destroyTimer: 5
-  lay: Player Bullets
-  destroyOnContactLays:
+  layer: 
+  destroyOnContactLayers:
     serializedVersion: 2
     m_Bits: 0
 --- !u!114 &8538243980001864248
@@ -489,8 +489,8 @@ MonoBehaviour:
   bulletSpeed: {x: -10, y: 15}
   bulletSpeedAng: 10
   destroyTimer: 5
-  lay: Player Bullets
-  destroyOnContactLays:
+  layer: 
+  destroyOnContactLayers:
     serializedVersion: 2
     m_Bits: 0
 --- !u!114 &8538243980001864246
@@ -513,10 +513,10 @@ MonoBehaviour:
   bulletSpeed: {x: 0, y: 0}
   bulletSpeedAng: 0
   destroyTimer: 5
-  lay: Player Bullets
-  destroyOnContactLays:
+  layer: 
+  destroyOnContactLayers:
     serializedVersion: 2
-    m_Bits: 72
+    m_Bits: 0
 --- !u!114 &8538243980001864247
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -537,10 +537,10 @@ MonoBehaviour:
   bulletSpeed: {x: 0, y: 0}
   bulletSpeedAng: 0
   destroyTimer: 5
-  lay: Player Bullets
-  destroyOnContactLays:
+  layer: 
+  destroyOnContactLayers:
     serializedVersion: 2
-    m_Bits: 72
+    m_Bits: 0
 --- !u!114 &8538243980001864245
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -561,10 +561,10 @@ MonoBehaviour:
   bulletSpeed: {x: 0, y: -5}
   bulletSpeedAng: 0
   destroyTimer: 7
-  lay: Player Bullets
-  destroyOnContactLays:
+  layer: 
+  destroyOnContactLayers:
     serializedVersion: 2
-    m_Bits: 72
+    m_Bits: 0
 --- !u!1 &8538243980322326806
 GameObject:
   m_ObjectHideFlags: 0

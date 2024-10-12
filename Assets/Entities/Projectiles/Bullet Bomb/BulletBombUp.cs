@@ -24,7 +24,7 @@ public class BulletBombUp : MonoBehaviour
 
     void Update()
     {
-        mov.Move();
+        mov.Move(Vector3.up);
         if (player != null)
         {
             if (transform.position.y > player.position.y)

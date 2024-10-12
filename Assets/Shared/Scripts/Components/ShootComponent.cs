@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class ShootComponent : MonoBehaviour
 {
-    //make enemy named spooker
     public GameObject bullet;
     public Transform shotOrigin;
     public float shotTimer;
@@ -18,18 +17,30 @@ public class ShootComponent : MonoBehaviour
     {
         shotTimer -= Time.deltaTime;
     }
+
+    GameObject BaseShoot()
+    {
+        GameObject newBullet = Instantiate(bullet, shotOrigin.position, Quaternion.Euler(0f, 0f, shotAngle));
+        newBullet.layer = LayerMask.NameToLayer(layer);
+        if (newBullet.TryGetComponent<DestroyOnContact>(out DestroyOnContact destroyOnContact))
+        {
+            destroyOnContact.layers = destroyOnContactLayers;
+        }
+        shotTimer = shotTimerSet;
+        Destroy(newBullet, destroyTimer);
+        return newBullet;
+    }
     
     public void Shoot(Vector2 speed)
     {
         if (shotTimer <= 0f)
         {
-            GameObject newBullet = Instantiate(bullet, shotOrigin.position, Quaternion.Euler(0f, 0f, shotAngle));
-            newBullet.GetComponent<MoveComponent>().xSpeed = speed.x;
-            newBullet.GetComponent<MoveComponent>().ySpeed = speed.y;
-            newBullet.layer = LayerMask.NameToLayer(layer);
-            newBullet.GetComponent<DestroyOnContact>().layers = destroyOnContactLayers;
-            shotTimer = shotTimerSet;
-            Destroy(newBullet, destroyTimer);
+            GameObject newBullet = BaseShoot();
+            if (newBullet.TryGetComponent<MoveComponent>(out MoveComponent moveComponemt))
+            {
+                moveComponemt.currentSpeedX = speed.x;
+                moveComponemt.currentSpeedY = speed.y;
+            }
         }
     }
 
@@ -37,11 +48,12 @@ public class ShootComponent : MonoBehaviour
     {
         if (shotTimer <= 0f)
         {
-            GameObject newBullet = Instantiate(bullet, shotOrigin.position, Quaternion.Euler(0f, 0f, shotAngle));
-            newBullet.GetComponent<MoveComponent>().maxSpeed = speed;
-            newBullet.layer = LayerMask.NameToLayer(layer);
-            shotTimer = shotTimerSet;
-            Destroy(newBullet, destroyTimer);
+            GameObject newBullet = BaseShoot();
+            if (newBullet.TryGetComponent<MoveComponent>(out MoveComponent moveComponemt))
+            {
+                moveComponemt.maximumSpeed.x = speed;
+                //moveComponemt.maximumSpeed.y = speed;
+            }
         }
     }
 }

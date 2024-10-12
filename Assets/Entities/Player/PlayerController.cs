@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -52,11 +51,6 @@ public class PlayerController : MonoBehaviour
         shootBomb.Disable();
     }
 
-    void Start()
-    {
-        //eh?
-    }
-
     void Update()
     {
         ReceiveInput();
@@ -68,63 +62,18 @@ public class PlayerController : MonoBehaviour
 
     void Movement()
     {
-        if(xy.x < -0.1)
-        {
-            mov.xSpeed = mov.Accelerate(mov.xSpeed, true);
-        }
-        else if(xy.x > 0.1)
-        {
-            mov.xSpeed = mov.Accelerate(mov.xSpeed, false);
-        }
+        mov.Move(xy);
 
-        if(xy.y < -0.1)
-        {
-            mov.ySpeed = mov.Accelerate(mov.ySpeed, true);
-        }
-        else if(xy.y > 0.1)
-        {
-            mov.ySpeed = mov.Accelerate(mov.ySpeed, false);
-        }
-        
-        if (xy.x == 0) // if neither is true, deaccelerate the player
-        {
-            if(mov.xSpeed > 0)
-            {
-                mov.xSpeed = mov.Decelerate(mov.xSpeed, true);
-            }
-            if(mov.xSpeed < 0)
-            {
-                mov.xSpeed = mov.Decelerate(mov.xSpeed, false);
-            }
-            
-        }
-        if (xy.y == 0)
-        {
-            if(mov.ySpeed > 0)
-            {
-                mov.ySpeed = mov.Decelerate(mov.ySpeed, true);
-            }
-            if(mov.ySpeed < 0)
-            {
-                mov.ySpeed = mov.Decelerate(mov.ySpeed, false);
-            }
-        }
-        mov.xSpeed = mov.CheckNearZero(mov.xSpeed);
-        mov.ySpeed = mov.CheckNearZero(mov.ySpeed);
-        
-        //caps movement speed
-        mov.xSpeed = mov.Cap(mov.xSpeed);
-        mov.ySpeed = mov.Cap(mov.ySpeed);
-
-        mov.Move();
+        //mov.xSpeed = mov.CheckNearZero(mov.xSpeed);
+        //mov.ySpeed = mov.CheckNearZero(mov.ySpeed);
 
         mov.BoundXY(7.2f, 5.3f);
     }
 
     void Shooting()
     {
-        InputAction[] shootAction = new InputAction[] {shootVulcan, shootLaser, shootHoming, shootBomb};
-        ShootComponent[] shooter = new ShootComponent[] {vulcan, laser, homing0, bomb, homing1, laser1};
+        InputAction[] shootAction = {shootVulcan, shootLaser, shootHoming, shootBomb};
+        ShootComponent[] shooter = {vulcan, laser, homing0, bomb, homing1, laser1};
         for (int i = 0; i < 4; i++)
         {
             if (shootAction[i].IsPressed())
@@ -153,6 +102,7 @@ public class PlayerController : MonoBehaviour
     void ReceiveInput()
     {
         xy = movement.ReadValue<Vector2>();
+        Debug.Log(xy);
     }
 
     void ResetInput()
@@ -166,7 +116,10 @@ public class PlayerController : MonoBehaviour
     
     void WhenDying()
     {
-        if (hp.currenthealth <= 0) StartCoroutine(Die());
+        if (hp.IsDead())
+        {
+            StartCoroutine(Die());
+        }
     }
 
     IEnumerator Die()

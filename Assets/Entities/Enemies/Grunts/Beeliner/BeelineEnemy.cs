@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BeelineEnemy : MonoBehaviour
@@ -20,7 +18,7 @@ public class BeelineEnemy : MonoBehaviour
     void Update()
     {
         ShootAtPlayer();
-        mov.Move();
+        mov.Move(Vector3.down);
     }
 
     void ShootAtPlayer()

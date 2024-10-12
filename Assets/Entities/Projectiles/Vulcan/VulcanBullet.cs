@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class VulcanBullet : MonoBehaviour
@@ -8,7 +6,7 @@ public class VulcanBullet : MonoBehaviour
     
     void Update()
     {
-        mov.Move();
+        mov.Move(Vector3.up);
         mov.ResetZ();
     }
 }

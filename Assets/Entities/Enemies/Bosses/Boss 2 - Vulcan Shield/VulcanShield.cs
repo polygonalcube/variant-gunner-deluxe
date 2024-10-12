@@ -6,7 +6,7 @@ public class VulcanShield : MonoBehaviour
 {
     public ShootComponent gun;
     public HPComponent hp;
-    public MoveComponent mov;
+    public MoveComponent moveComponent;
 
     int state; //0=enter, 1=dying, 2=attacking, 3=positioning
     public float entranceSpeed;
@@ -85,14 +85,12 @@ public class VulcanShield : MonoBehaviour
             {
                 if (player.position.x < transform.position.x)
                 {
-                    mov.xSpeed = mov.Accelerate(mov.xSpeed, true);
+                    moveComponent.Move(new Vector3(-1f, 0f, 0f));
                 }
                 else if (player.position.x > transform.position.x)
                 {
-                    mov.xSpeed = mov.Accelerate(mov.xSpeed, false);
+                    moveComponent.Move(new Vector3(1f, 0f, 0f));
                 }
-                mov.xSpeed = mov.Cap(mov.xSpeed);
-                mov.Move();
             }
             if (timer <= 0)
             {

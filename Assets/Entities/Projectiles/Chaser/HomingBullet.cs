@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -50,24 +49,16 @@ public class HomingBullet : MonoBehaviour
             Vector3 pointVec = nearest.position - transform.position;
             //pointVec = pointVec.normalized;
             //Vector3.ClampMagnitude(pointVec, mov.maxSpeed);
-            pointVec = pointVec * (mov.maxSpeed/pointVec.magnitude);
+            pointVec = pointVec * (mov.maximumSpeed.x/pointVec.magnitude);
 
-            mov.xSpeed = pointVec.x;
-            mov.ySpeed = pointVec.y;
+            mov.Move(new Vector3(pointVec.x, pointVec.y, 0f));
 
             //transform.LookAt(nearest, deleteThis);
         }
         else
         {
-            mov.ySpeed = mov.Accelerate(mov.ySpeed, false);
+            mov.Move(Vector3.up);
         }
-
-        //caps movement speed
-        mov.xSpeed = mov.Cap(mov.xSpeed);
-        mov.ySpeed = mov.Cap(mov.ySpeed);
-
-        //Moves the GameObject
-        mov.Move();
         mov.ResetZ();
     }
 
@@ -87,7 +78,7 @@ public class HomingBullet : MonoBehaviour
         var enemies = FindObjectsOfType<GameObject>();
         foreach (GameObject enemy in enemies)
         {
-            if((layers.value & 1<<enemy.layer) == 1<<enemy.gameObject.layer)
+            if ((layers.value & 1 << enemy.layer) == 1 << enemy.gameObject.layer)
             {
                 nearbyEnemies.Add(enemy.transform);
                 //Debug.Log("Nearest exists!!");
