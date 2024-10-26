@@ -126,7 +126,7 @@ MonoBehaviour:
   bulletSpeed: {x: 0, y: -5}
   bulletSpeedAng: 5
   destroyTimer: 7
-  layer: 
+  layer: Enemy Bullets
   destroyOnContactLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -145,9 +145,9 @@ MonoBehaviour:
   currentSpeedX: 0
   currentSpeedY: 0
   currentSpeedZ: 0
-  maximumSpeed: {x: 2, y: 2, z: 2}
-  acceleration: 1
-  deceleration: 2
+  maximumSpeed: {x: 0.5, y: 0.5, z: 0}
+  acceleration: 0.01
+  deceleration: 0.01
 --- !u!114 &2060139399682821856
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -164,8 +164,8 @@ MonoBehaviour:
   scoreManager: {fileID: 0}
   dangerousLayers:
     serializedVersion: 2
-    m_Bits: 0
-  meshRenderer: {fileID: 0}
+    m_Bits: 128
+  meshRenderer: {fileID: 3980219882317563001}
   immediateDeath: 0
   usesInvincibilityFrames: 0
   invincibilitySeconds: 0

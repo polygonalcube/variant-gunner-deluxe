@@ -58,8 +58,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp: {fileID: 5429420955084782427}
-  movEnter: {fileID: 5642555268203770287}
-  movAttack: {fileID: 8285439103569011304}
+  moveComponentEnter: {fileID: 0}
+  moveComponentAttack: {fileID: 0}
   bomb: {fileID: 7711423940509751279}
   bombUp: {fileID: 1827894867590985599}
   finalPosTop: {x: 0, y: 4, z: 0}
@@ -76,8 +76,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d7537ecda57381cd94fe67f3edab18c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 1000
+  currenthealth: 0
   maxHealth: 1000
+  healthStartsAtMax: 1
 --- !u!114 &7033555629100354451
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -90,7 +91,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad6afe9051a4393e1ae829941b78b9fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 1
+  hitStrength: 1
 --- !u!114 &5642555268203770287
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -103,12 +104,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7623d92d693da5d87a03f246569a4322, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveDir: {x: 0, y: 0, z: 0}
-  xSpeed: 0
-  ySpeed: 0
-  maxSpeed: 3
-  accel: 3
-  decel: 0
+  currentSpeedX: 0
+  currentSpeedY: 0
+  currentSpeedZ: 0
+  maximumSpeed: {x: 10, y: 10, z: 10}
+  acceleration: 0
+  deceleration: 0
 --- !u!54 &2961392602329419853
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -137,12 +138,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7623d92d693da5d87a03f246569a4322, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveDir: {x: 0, y: 0, z: 0}
-  xSpeed: 0
-  ySpeed: 0
-  maxSpeed: 5
-  accel: 0.25
-  decel: 0
+  currentSpeedX: 0
+  currentSpeedY: 0
+  currentSpeedZ: 0
+  maximumSpeed: {x: 10, y: 10, z: 10}
+  acceleration: 0
+  deceleration: 0
 --- !u!114 &5566274247905519342
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -169,17 +170,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe9f0517e37536e4f953ff8127b1bb99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: {fileID: 5429420955084782427}
-  score: {fileID: 5566274247905519342}
-  layers:
+  healthManager: {fileID: 0}
+  scoreManager: {fileID: 0}
+  dangerousLayers:
     serializedVersion: 2
     m_Bits: 128
-  damageOverride: 0
+  meshRenderer: {fileID: 0}
   immediateDeath: 0
-  hasIFrames: 0
-  iSeconds: 0
-  iSecondsSet: 0
-  mr: {fileID: 0}
+  usesInvincibilityFrames: 0
+  invincibilitySeconds: 0
+  invincibilitySecondsSet: 0
 --- !u!114 &7711423940509751279
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -200,10 +200,10 @@ MonoBehaviour:
   bulletSpeed: {x: 0, y: -6}
   bulletSpeedAng: 10
   destroyTimer: 10
-  lay: Enemy Bullets
-  destroyOnContactLays:
+  layer: Enemy Bullets
+  destroyOnContactLayers:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 0
 --- !u!135 &8465504560207357527
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -237,10 +237,10 @@ MonoBehaviour:
   bulletSpeed: {x: 0, y: 6}
   bulletSpeedAng: 10
   destroyTimer: 10
-  lay: Enemy Bullets
-  destroyOnContactLays:
+  layer: Enemy Bullets
+  destroyOnContactLayers:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 0
 --- !u!1 &5227318013959666268
 GameObject:
   m_ObjectHideFlags: 0

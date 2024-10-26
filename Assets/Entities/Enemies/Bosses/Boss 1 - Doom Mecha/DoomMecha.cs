@@ -93,6 +93,10 @@ public class DoomMecha : MonoBehaviour
                 {
                     moveComponent.Move(Vector3.right);
                 }
+                else
+                {
+                    moveComponent.Move(Vector3.zero);
+                }
 
                 Vector3 currentPos = transform.position;
                 Vector3 currentEuler = transform.eulerAngles;

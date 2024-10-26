@@ -380,6 +380,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currenthealth: 0
   maxHealth: 4
+  healthStartsAtMax: 1
 --- !u!114 &8538243980001864241
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -394,15 +395,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthManager: {fileID: 0}
   scoreManager: {fileID: 0}
-  layers:
+  dangerousLayers:
     serializedVersion: 2
     m_Bits: 328
-  mr: {fileID: 8844091619110059307}
-  damageOverride: 1
+  meshRenderer: {fileID: 8844091619110059307}
   immediateDeath: 0
-  hasIFrames: 1
-  iSeconds: 0
-  iSecondsSet: 1
+  usesInvincibilityFrames: 0
+  invincibilitySeconds: 0
+  invincibilitySecondsSet: 0
 --- !u!114 &8538243980001864243
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -441,7 +441,7 @@ MonoBehaviour:
   bulletSpeed: {x: 0, y: 25}
   bulletSpeedAng: 0
   destroyTimer: 2
-  layer: 
+  layer: Player Bullets
   destroyOnContactLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -465,7 +465,7 @@ MonoBehaviour:
   bulletSpeed: {x: 10, y: 15}
   bulletSpeedAng: 10
   destroyTimer: 5
-  layer: 
+  layer: Player Bullets
   destroyOnContactLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -489,7 +489,7 @@ MonoBehaviour:
   bulletSpeed: {x: -10, y: 15}
   bulletSpeedAng: 10
   destroyTimer: 5
-  layer: 
+  layer: Player Bullets
   destroyOnContactLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -513,7 +513,7 @@ MonoBehaviour:
   bulletSpeed: {x: 0, y: 0}
   bulletSpeedAng: 0
   destroyTimer: 5
-  layer: 
+  layer: Player Bullets
   destroyOnContactLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -537,7 +537,7 @@ MonoBehaviour:
   bulletSpeed: {x: 0, y: 0}
   bulletSpeedAng: 0
   destroyTimer: 5
-  layer: 
+  layer: Player Bullets
   destroyOnContactLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -561,7 +561,7 @@ MonoBehaviour:
   bulletSpeed: {x: 0, y: -5}
   bulletSpeedAng: 0
   destroyTimer: 7
-  layer: 
+  layer: Player Bullets
   destroyOnContactLayers:
     serializedVersion: 2
     m_Bits: 0

@@ -101,6 +101,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currenthealth: 3
   maxHealth: 3
+  healthStartsAtMax: 1
 --- !u!114 &4240974858904094587
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -117,7 +118,7 @@ MonoBehaviour:
   scoreManager: {fileID: 4240974858904094582}
   dangerousLayers:
     serializedVersion: 2
-    m_Bits: 640
+    m_Bits: 128
   meshRenderer: {fileID: 2698527178588183798}
   immediateDeath: 1
   usesInvincibilityFrames: 1
@@ -143,7 +144,7 @@ MonoBehaviour:
   bulletSpeed: {x: 0, y: -8}
   bulletSpeedAng: 5
   destroyTimer: 7
-  layer: 
+  layer: Enemy Bullets
   destroyOnContactLayers:
     serializedVersion: 2
     m_Bits: 0

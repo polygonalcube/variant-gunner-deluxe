@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -14,6 +15,24 @@ public class HurtComponent : MonoBehaviour
     public bool usesInvincibilityFrames = false;
     public float invincibilitySeconds = 0f;
     public float invincibilitySecondsSet;
+
+    private void Awake()
+    {
+        if (healthManager == null)
+        {
+            healthManager = GetComponent<HPComponent>();
+        }
+        
+        if (scoreManager == null)
+        {
+            scoreManager = GetComponent<ScoreComponent>();
+        }
+        
+        /*if ( == null)
+        {
+            healthManager = GetComponent<HPComponent>();
+        }*/
+    }
 
     void Update()
     {
@@ -48,8 +67,7 @@ public class HurtComponent : MonoBehaviour
     //Needs a trigger collider to be present on the game object.
     void OnTriggerEnter(Collider otherCollider)
     {
-        bool otherColliderLayerIsDangerous = (dangerousLayers.value & 1 << otherCollider.gameObject.layer) == 1 << otherCollider.gameObject.layer;
-        if (otherColliderLayerIsDangerous && otherCollider.gameObject.TryGetComponent<HitComponent>(out HitComponent hitbox))
+        if (dangerousLayers.Contains(otherCollider) && otherCollider.gameObject.TryGetComponent<HitComponent>(out HitComponent hitbox))
         {
             if (healthManager == null)
             {
@@ -83,6 +101,12 @@ public class HurtComponent : MonoBehaviour
             {
                 mr.SetActive(false);
             }*/
+        }
+        else
+        {
+            Debug.Log(gameObject.name + "'s HurtComponent collider check results: " + 
+                      dangerousLayers.Contains(otherCollider) + ", " + 
+                      otherCollider.gameObject.TryGetComponent<HitComponent>(out HitComponent hit));
         }
     }
 }

@@ -85,7 +85,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gun: {fileID: 343523652250961917}
   hp: {fileID: 343523652250961918}
-  mov: {fileID: -4934415194379775005}
+  moveComponent: {fileID: 0}
   entranceSpeed: 5
   finalPos: {x: 0, y: 0, z: 0}
   anim: {fileID: 343523653229460269}
@@ -136,10 +136,10 @@ MonoBehaviour:
   bulletSpeed: {x: 0, y: 0}
   bulletSpeedAng: 4
   destroyTimer: 7
-  lay: Enemy Bullets
-  destroyOnContactLays:
+  layer: Enemy Bullets
+  destroyOnContactLayers:
     serializedVersion: 2
-    m_Bits: 520
+    m_Bits: 0
 --- !u!114 &343523652250961918
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -152,8 +152,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d7537ecda57381cd94fe67f3edab18c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 400
+  currenthealth: 0
   maxHealth: 400
+  healthStartsAtMax: 1
 --- !u!114 &2172650018331252218
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -166,17 +167,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe9f0517e37536e4f953ff8127b1bb99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: {fileID: 343523652250961918}
-  score: {fileID: -729446112674794010}
-  layers:
+  healthManager: {fileID: 0}
+  scoreManager: {fileID: 0}
+  dangerousLayers:
     serializedVersion: 2
     m_Bits: 128
-  damageOverride: 0
+  meshRenderer: {fileID: 0}
   immediateDeath: 0
-  hasIFrames: 0
-  iSeconds: 0
-  iSecondsSet: 0
-  mr: {fileID: 0}
+  usesInvincibilityFrames: 0
+  invincibilitySeconds: 0
+  invincibilitySecondsSet: 0
 --- !u!114 &-3740008623368057172
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -189,7 +189,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad6afe9051a4393e1ae829941b78b9fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 1
+  hitStrength: 1
 --- !u!114 &-729446112674794010
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -216,12 +216,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7623d92d693da5d87a03f246569a4322, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveDir: {x: 0, y: 0, z: 0}
-  xSpeed: 0
-  ySpeed: 0
-  maxSpeed: 1
-  accel: 0.25
-  decel: 0
+  currentSpeedX: 0
+  currentSpeedY: 0
+  currentSpeedZ: 0
+  maximumSpeed: {x: 10, y: 10, z: 10}
+  acceleration: 0
+  deceleration: 0
 --- !u!1 &343523653721254357
 GameObject:
   m_ObjectHideFlags: 0
@@ -663,7 +663,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
 --- !u!95 &343523653229460269
 Animator:
-  serializedVersion: 4
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -680,7 +680,8 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &725251605724897683 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -8154632925401902490, guid: 9f8af14d59fbc4464855fba822269084, type: 3}
