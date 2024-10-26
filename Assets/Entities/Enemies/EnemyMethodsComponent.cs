@@ -2,10 +2,8 @@ using UnityEngine;
 
 public class EnemyMethodsComponent : MonoBehaviour
 {
-    public GameObject FindPlayer(string playerName = "Player")
+    public GameObject FindPlayer(string playerTagName = "Player")
     {
-        GameObject player = null;
-        player = GameObject.Find(playerName);
-        return player;
+        return GameObject.FindGameObjectWithTag(playerTagName);
     }
 }

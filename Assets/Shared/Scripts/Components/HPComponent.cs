@@ -1,9 +1,20 @@
+using System;
 using UnityEngine;
 
 public class HPComponent : MonoBehaviour
 {
     public int currenthealth;
     public int maxHealth;
+
+    public bool healthStartsAtMax = true;
+
+    private void Start()
+    {
+        if (healthStartsAtMax)
+        {
+            currenthealth = maxHealth;
+        }
+    }
 
     public bool IsAlive()
     {

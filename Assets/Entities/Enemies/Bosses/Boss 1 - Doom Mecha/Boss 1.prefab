@@ -48,6 +48,7 @@ GameObject:
   - component: {fileID: 2060139399682821859}
   - component: {fileID: 2060139399682821858}
   - component: {fileID: 2060139399682821861}
+  - component: {fileID: 4329637531688557572}
   m_Layer: 6
   m_Name: Boss 1
   m_TagString: Untagged
@@ -98,10 +99,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af4923a22db1af01dad559f5d51e4533, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  vulcan: {fileID: 2060139399682821860}
-  mov: {fileID: 2060139399682821857}
-  hp: {fileID: 2060139399682821859}
-  isExiting: 0
   entranceSpeed: 100
   entranceAngle: {x: -50, y: -30, z: 0}
   finalPos: {x: 0, y: 1.5, z: 0}
@@ -109,7 +106,6 @@ MonoBehaviour:
   timer: 0
   timerSet: 1
   exitTimerSet: 3
-  player: {fileID: 0}
 --- !u!114 &2060139399682821860
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -130,10 +126,10 @@ MonoBehaviour:
   bulletSpeed: {x: 0, y: -5}
   bulletSpeedAng: 5
   destroyTimer: 7
-  lay: Enemy Bullets
-  destroyOnContactLays:
+  layer: 
+  destroyOnContactLayers:
     serializedVersion: 2
-    m_Bits: 520
+    m_Bits: 0
 --- !u!114 &2060139399682821857
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -146,12 +142,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7623d92d693da5d87a03f246569a4322, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveDir: {x: 0, y: 0, z: 0}
-  xSpeed: 0
-  ySpeed: 0
-  maxSpeed: 1.5
-  accel: 0.25
-  decel: 0.25
+  currentSpeedX: 0
+  currentSpeedY: 0
+  currentSpeedZ: 0
+  maximumSpeed: {x: 2, y: 2, z: 2}
+  acceleration: 1
+  deceleration: 2
 --- !u!114 &2060139399682821856
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -164,17 +160,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe9f0517e37536e4f953ff8127b1bb99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: {fileID: 2060139399682821859}
-  score: {fileID: 2060139399682821861}
-  layers:
+  healthManager: {fileID: 0}
+  scoreManager: {fileID: 0}
+  dangerousLayers:
     serializedVersion: 2
-    m_Bits: 128
-  damageOverride: 0
+    m_Bits: 0
+  meshRenderer: {fileID: 0}
   immediateDeath: 0
-  hasIFrames: 0
-  iSeconds: 0
-  iSecondsSet: 0
-  mr: {fileID: 0}
+  usesInvincibilityFrames: 0
+  invincibilitySeconds: 0
+  invincibilitySecondsSet: 0
 --- !u!114 &2060139399682821859
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -187,8 +182,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d7537ecda57381cd94fe67f3edab18c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 500
+  currenthealth: 0
   maxHealth: 500
+  healthStartsAtMax: 1
 --- !u!114 &2060139399682821858
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -201,7 +197,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad6afe9051a4393e1ae829941b78b9fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 4
+  hitStrength: 1
 --- !u!114 &2060139399682821861
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -216,6 +212,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damagePoints: 100
   deathPoints: 100000
+--- !u!114 &4329637531688557572
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2060139399682821863}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0623a484fea444488c98ae75624230e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2060139398148549959
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -387,7 +395,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
 --- !u!95 &6384142169696112993
 Animator:
-  serializedVersion: 4
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -404,7 +412,8 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!4 &4357026247240064707 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 09e24dd88a47f6045b4801ee3353eb8f, type: 3}

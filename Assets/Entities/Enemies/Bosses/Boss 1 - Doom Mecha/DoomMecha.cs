@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 [RequireComponent(typeof(EnemyMethodsComponent))]
@@ -10,36 +11,48 @@ public class DoomMecha : MonoBehaviour
     /// <summary>
     /// The logic for the Doom Mecha boss's attacks.
     /// </summary>
-    
-    public EnemyMethodsComponent enemyMethods;
-    public HPComponent healthManager;
-    public MoveComponent moveComponent;
-    public ShootComponent vulcan;
 
-    bool isAttacking;
-    bool isEntering;
-    public bool isExiting;
+    private EnemyMethodsComponent enemyMethods;
+    private HPComponent healthManager;
+    private MoveComponent moveComponent;
+    private ShootComponent vulcan;
+
     public float entranceSpeed;
     public Vector3 entranceAngle;
     public Vector3 finalPos;
     public Animator anim;
     public float timer;
-    float cycle;
+    int cycle;
     public float timerSet;
     public float exitTimerSet;
 
     private Transform playerTransform;
-    
-    enum States {Entering, Stalling, Attacking, Dying}
+
+    enum States
+    {
+        Entering,
+        Stalling,
+        Attacking,
+        Dying
+    }
+
     States currentState = States.Entering;
 
-    void Start()
+    void Awake()
     {
-        isAttacking = false;
-        isEntering = true;
-        playerTransform = enemyMethods.FindPlayer().transform;
+        enemyMethods = GetComponent<EnemyMethodsComponent>();
+        healthManager = GetComponent<HPComponent>();
+        moveComponent = GetComponent<MoveComponent>();
+        vulcan = GetComponent<ShootComponent>();
+
+        playerTransform = enemyMethods.FindPlayer()?.transform;
     }
-    
+
+    private void Start()
+    {
+        
+    }
+
     void Update()
     {
         switch (currentState)
@@ -47,6 +60,7 @@ public class DoomMecha : MonoBehaviour
             case States.Entering:
                 transform.position = Vector3.MoveTowards(transform.position, finalPos, entranceSpeed * Time.deltaTime);
                 transform.eulerAngles = entranceAngle;
+
                 if (transform.position == finalPos)
                 {
                     transform.eulerAngles = new Vector3(0, 0, 0);
@@ -58,6 +72,7 @@ public class DoomMecha : MonoBehaviour
             case States.Stalling:
                 anim.Play("Idle");
                 timer -= Time.deltaTime;
+
                 if (timer <= 0)
                 {
                     currentState = States.Attacking;
@@ -65,11 +80,16 @@ public class DoomMecha : MonoBehaviour
 
                 break;
             case States.Attacking:
-                if (playerTransform.position.x < transform.position.x - .5f)
+                if (playerTransform == null)
+                {
+                    playerTransform = enemyMethods.FindPlayer().transform;
+                }
+                
+                if (playerTransform?.position.x < transform.position.x - 0.5f)
                 {
                     moveComponent.Move(Vector3.left);
                 }
-                else if (playerTransform.position.x > transform.position.x + .5f)
+                else if (playerTransform?.position.x > transform.position.x + 0.5f)
                 {
                     moveComponent.Move(Vector3.right);
                 }
@@ -77,47 +97,31 @@ public class DoomMecha : MonoBehaviour
                 Vector3 currentPos = transform.position;
                 Vector3 currentEuler = transform.eulerAngles;
                 transform.position = new Vector3(vulcan.shotOrigin.position.x, vulcan.shotOrigin.position.y, 0f);
-                transform.LookAt(playerTransform.transform, Vector3.up);
+                transform.LookAt(playerTransform?.transform, Vector3.up);
                 Vector3 pointer = transform.eulerAngles;
                 transform.position = currentPos;
                 transform.eulerAngles = currentEuler;
 
                 if (vulcan.shotTimer <= 0)
                 {
-                    if (cycle == 1)
+                    for (int i = 0; i < 5 - cycle; i++)
                     {
-                        for (int i = 0; i < 4; i++)
+                        vulcan.shotAngle = pointer.x - 270f + ((float)(i - (2f - (0.5f * (float)cycle))) * 15f);
+                        if (playerTransform?.position.x > vulcan.shotOrigin.position.x)
                         {
-                            vulcan.shotAngle = pointer.x - 270f + (((float)i-1.5f) * 15f);
-                            if (playerTransform.position.x > vulcan.shotOrigin.position.x)
-                            {
-                                vulcan.shotAngle = -vulcan.shotAngle;
-                            }
-                            vulcan.ShootAng(vulcan.bulletSpeedAng);
-                            vulcan.shotTimer = 0f;
+                            vulcan.shotAngle = -vulcan.shotAngle;
                         }
-                        vulcan.shotTimer = vulcan.shotTimerSet;
-                        cycle = 0;
+
+                        vulcan.ShootAng(vulcan.bulletSpeedAng);
+                        vulcan.shotTimer = 0f;
                     }
-                    else
-                    {
-                        for (int i = 0; i < 5; i++)
-                        {
-                            vulcan.shotAngle = pointer.x - 270f + ((float)(i-2) * 15f);
-                            if (playerTransform.position.x > vulcan.shotOrigin.position.x)
-                            {
-                                vulcan.shotAngle = -vulcan.shotAngle;
-                            }
-                            vulcan.ShootAng(vulcan.bulletSpeedAng);
-                            vulcan.shotTimer = 0f;
-                        }
-                        vulcan.shotTimer = vulcan.shotTimerSet;
-                        cycle++;
-                    }
+
+                    vulcan.shotTimer = vulcan.shotTimerSet;
+                    cycle = (int)Mathf.Repeat(cycle + 1, 2);
                 }
-                
+
                 anim.Play("Shoot");
-                
+
                 if (healthManager.IsDead())
                 {
                     timer = exitTimerSet;
@@ -129,6 +133,7 @@ public class DoomMecha : MonoBehaviour
                 anim.Play("Entrance");
                 timer -= Time.deltaTime;
                 transform.eulerAngles += new Vector3(5f, 5f, 5f) * Time.deltaTime;
+
                 if (timer <= 0)
                 {
                     GameManager.gm.level++;
