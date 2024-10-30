@@ -102,7 +102,6 @@ public class PlayerController : MonoBehaviour
     void ReceiveInput()
     {
         xy = movement.ReadValue<Vector2>();
-        Debug.Log(xy);
     }
 
     void ResetInput()

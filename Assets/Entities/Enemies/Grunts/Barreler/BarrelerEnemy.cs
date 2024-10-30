@@ -48,6 +48,9 @@ public class BarrelerEnemy : MonoBehaviour
                     pointVec = pointVec * (movAttack.maximumSpeed.x/pointVec.magnitude);
                     attackMoveDirection = new Vector3(pointVec.x, pointVec.y, 0f);
                     //movAttack.Move();
+                    
+                    movAttack.currentSpeedX = pointVec.x;
+                    movAttack.currentSpeedY = pointVec.y;
 
                     state++;
                 }

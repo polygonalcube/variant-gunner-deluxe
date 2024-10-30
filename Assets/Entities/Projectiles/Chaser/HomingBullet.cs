@@ -4,11 +4,9 @@ using UnityEngine;
 public class HomingBullet : MonoBehaviour
 {
     public MoveComponent mov;
-    public List<Transform> nearbyEnemies = new List<Transform>();
+    public List<Transform> nearbyEnemies = new();
     public Transform nearest;
     public LayerMask layers;
-
-    //public Vector3 deleteThis;
     
     void Update()
     {
@@ -26,79 +24,36 @@ public class HomingBullet : MonoBehaviour
             }
         }
 
-        if (nearest != null)
+        if (nearest != null && nearest.gameObject.activeSelf)
         {
-            /*if(nearest.position.x < transform.position.x)
-            {
-                mov.xSpeed = mov.Accelerate(mov.xSpeed, true);
-            }
-            else if(nearest.position.x > transform.position.x)
-            {
-                mov.xSpeed = mov.Accelerate(mov.xSpeed, false);
-            }
-
-            if(nearest.position.y < transform.position.y)
-            {
-                mov.ySpeed = mov.Accelerate(mov.ySpeed, true);
-            }
-            else if(nearest.position.y > transform.position.y)
-            {
-                mov.ySpeed = mov.Accelerate(mov.ySpeed, false);
-            }*/
-
             Vector3 pointVec = nearest.position - transform.position;
-            //pointVec = pointVec.normalized;
-            //Vector3.ClampMagnitude(pointVec, mov.maxSpeed);
-            pointVec = pointVec * (mov.maximumSpeed.x/pointVec.magnitude);
+            pointVec *= mov.maximumSpeed.x/pointVec.magnitude;
 
-            mov.Move(new Vector3(pointVec.x, pointVec.y, 0f));
+            mov.currentSpeedX = pointVec.x;
+            mov.currentSpeedY = pointVec.y;
+            mov.Move(Vector3.zero);//
 
-            //transform.LookAt(nearest, deleteThis);
+            transform.LookAt(nearest);
         }
         else
         {
+            transform.eulerAngles = new Vector3(-90f, 90f, 0f);
+            
+            mov.currentSpeedY = mov.maximumSpeed.y;
             mov.Move(Vector3.up);
         }
         mov.ResetZ();
     }
-
-    /*
-    void OnTriggerEnter(Collider col)
-    {
-        if((layers.value & 1<<col.gameObject.layer) == 1<<col.gameObject.layer)
-        {
-            nearbyEnemies.Add(col.gameObject.transform);
-            //Debug.Log("Nearest exists!!");
-        }
-    }
-    */
 
     void FindGameObjectsWithLayer()
     {
         var enemies = FindObjectsOfType<GameObject>();
         foreach (GameObject enemy in enemies)
         {
-            if ((layers.value & 1 << enemy.layer) == 1 << enemy.gameObject.layer)
+            if (layers.Contains(enemy))
             {
                 nearbyEnemies.Add(enemy.transform);
-                //Debug.Log("Nearest exists!!");
             }
         }
     }
-    
-    /*
-    function FindGameObjectsWithLayer (layer : int) : GameObject[] {
-        var goArray = FindObjectsOfType(GameObject);
-        var goList = new System.Collections.Generic.List.<GameObject>();
-        for (var i = 0; i < goArray.Length; i++) {
-            if (goArray[i].layer == layer) {
-                goList.Add(goArray[i]);
-            }
-        }
-        if (goList.Count == 0) {
-            return null;
-        }
-        return goList.ToArray();
-    }
-    */
 }

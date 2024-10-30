@@ -16,6 +16,16 @@ public class HPComponent : MonoBehaviour
         }
     }
 
+    public void ChangeHealth(int amount)
+    {
+        currenthealth = Mathf.Clamp(currenthealth - amount, 0, maxHealth);
+    }
+    
+    public void Heal(int amount)
+    {
+        currenthealth = Mathf.Clamp(currenthealth + amount, 0, maxHealth);
+    }
+
     public bool IsAlive()
     {
         return currenthealth > 0;

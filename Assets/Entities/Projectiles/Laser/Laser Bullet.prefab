@@ -231,12 +231,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7623d92d693da5d87a03f246569a4322, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveDir: {x: 0, y: 0, z: 0}
-  xSpeed: 0
-  ySpeed: 0
-  maxSpeed: 0
-  accel: 0
-  decel: 0
+  currentSpeedX: 0
+  currentSpeedY: 0
+  currentSpeedZ: 0
+  maximumSpeed: {x: 30, y: 30, z: 0}
+  acceleration: 0
+  deceleration: 0
 --- !u!114 &-2755531863357306159
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -249,7 +249,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad6afe9051a4393e1ae829941b78b9fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 4
+  hitStrength: 4
 --- !u!136 &4833874586518392405
 CapsuleCollider:
   m_ObjectHideFlags: 0

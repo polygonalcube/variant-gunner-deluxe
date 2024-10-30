@@ -14,6 +14,7 @@ public class DoomMecha : MonoBehaviour
 
     private EnemyMethodsComponent enemyMethods;
     private HPComponent healthManager;
+    private HurtComponent hurtbox;
     private MoveComponent moveComponent;
     private ShootComponent vulcan;
 
@@ -42,6 +43,7 @@ public class DoomMecha : MonoBehaviour
     {
         enemyMethods = GetComponent<EnemyMethodsComponent>();
         healthManager = GetComponent<HPComponent>();
+        hurtbox = GetComponent<HurtComponent>();
         moveComponent = GetComponent<MoveComponent>();
         vulcan = GetComponent<ShootComponent>();
 
@@ -85,11 +87,11 @@ public class DoomMecha : MonoBehaviour
                     playerTransform = enemyMethods.FindPlayer().transform;
                 }
                 
-                if (playerTransform?.position.x < transform.position.x - 0.5f)
+                if (playerTransform?.position.x < transform.position.x - 0.1f)
                 {
                     moveComponent.Move(Vector3.left);
                 }
-                else if (playerTransform?.position.x > transform.position.x + 0.5f)
+                else if (playerTransform?.position.x > transform.position.x + 0.1f)
                 {
                     moveComponent.Move(Vector3.right);
                 }
@@ -129,18 +131,20 @@ public class DoomMecha : MonoBehaviour
                 if (healthManager.IsDead())
                 {
                     timer = exitTimerSet;
+                    hurtbox.isActive = false;
                     currentState = States.Dying;
                 }
 
                 break;
             case States.Dying:
                 anim.Play("Entrance");
-                timer -= Time.deltaTime;
+                
                 transform.eulerAngles += new Vector3(5f, 5f, 5f) * Time.deltaTime;
-
+                
+                timer -= Time.deltaTime;
                 if (timer <= 0)
                 {
-                    GameManager.gm.level++;
+                    GameManager.gm.level = 2;
                     Debug.Log("Going to level 2!");
                     Destroy(gameObject);
                 }

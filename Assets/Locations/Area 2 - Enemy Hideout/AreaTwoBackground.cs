@@ -10,7 +10,7 @@ public class AreaTwoBackground : MonoBehaviour
         transform.position += new Vector3(0f, scrollSpd * Time.deltaTime, 0f);
         if (!newSectionSpawned && transform.position.y > 0f)
         {
-            Instantiate(this.gameObject, new Vector3(0f, -40f + transform.position.y, 0f), Quaternion.identity);
+            Instantiate(gameObject, new Vector3(0f, -40f + transform.position.y, 0f), Quaternion.identity);
             newSectionSpawned = true;
         }
 

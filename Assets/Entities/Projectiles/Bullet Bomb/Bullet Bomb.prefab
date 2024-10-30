@@ -56,7 +56,6 @@ MonoBehaviour:
   mid: {fileID: 2225475540277487315}
   inner: {fileID: 3618124209197649755}
   bulletCount: 20
-  player: {fileID: 0}
 --- !u!114 &1608416730596137161
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -69,12 +68,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7623d92d693da5d87a03f246569a4322, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveDir: {x: 0, y: 0, z: 0}
-  xSpeed: 0
-  ySpeed: -10
-  maxSpeed: 10
-  accel: 0
-  decel: 5
+  currentSpeedX: 0
+  currentSpeedY: 0
+  currentSpeedZ: 0
+  maximumSpeed: {x: 10, y: 10, z: 10}
+  acceleration: 0
+  deceleration: 0
 --- !u!114 &6804455573800058919
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -112,10 +111,10 @@ MonoBehaviour:
   bulletSpeed: {x: 0, y: 0}
   bulletSpeedAng: 4
   destroyTimer: 10
-  lay: Enemy Bullets
-  destroyOnContactLays:
+  layer: Enemy Bullets
+  destroyOnContactLayers:
     serializedVersion: 2
-    m_Bits: 520
+    m_Bits: 512
 --- !u!114 &2225475540277487315
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -136,10 +135,10 @@ MonoBehaviour:
   bulletSpeed: {x: 0, y: 0}
   bulletSpeedAng: 3
   destroyTimer: 10
-  lay: Enemy Bullets
-  destroyOnContactLays:
+  layer: Enemy Bullets
+  destroyOnContactLayers:
     serializedVersion: 2
-    m_Bits: 520
+    m_Bits: 512
 --- !u!114 &3618124209197649755
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -160,10 +159,10 @@ MonoBehaviour:
   bulletSpeed: {x: 0, y: 0}
   bulletSpeedAng: 2
   destroyTimer: 10
-  lay: Enemy Bullets
-  destroyOnContactLays:
+  layer: Enemy Bullets
+  destroyOnContactLayers:
     serializedVersion: 2
-    m_Bits: 520
+    m_Bits: 512
 --- !u!114 &-7427555394879449196
 MonoBehaviour:
   m_ObjectHideFlags: 0

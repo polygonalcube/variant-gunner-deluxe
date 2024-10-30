@@ -104,7 +104,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currenthealth: 0
-  maxHealth: 3
+  maxHealth: 15
   healthStartsAtMax: 1
 --- !u!114 &4240974858904094587
 MonoBehaviour:
@@ -125,9 +125,10 @@ MonoBehaviour:
     m_Bits: 128
   meshRenderer: {fileID: 0}
   immediateDeath: 1
-  usesInvincibilityFrames: 0
+  usesInvincibilityFrames: 1
   invincibilitySeconds: 0
-  invincibilitySecondsSet: 0
+  invincibilitySecondsSet: 0.03333334
+  isActive: 1
 --- !u!114 &4240974858904094585
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -151,7 +152,7 @@ MonoBehaviour:
   layer: Enemy Bullets
   destroyOnContactLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 512
 --- !u!114 &4240974858904094582
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -165,7 +166,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damagePoints: 10
-  deathPoints: 1000
+  deathPoints: 2000
 --- !u!114 &4240974858904094583
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -194,8 +195,8 @@ MonoBehaviour:
   currentSpeedX: 0
   currentSpeedY: 0
   currentSpeedZ: 0
-  maximumSpeed: {x: 10, y: 10, z: 10}
-  acceleration: 0
+  maximumSpeed: {x: 0, y: 2, z: 0}
+  acceleration: 2
   deceleration: 0
 --- !u!114 &6845037770009194829
 MonoBehaviour:
@@ -212,7 +213,7 @@ MonoBehaviour:
   currentSpeedX: 0
   currentSpeedY: 0
   currentSpeedZ: 0
-  maximumSpeed: {x: 10, y: 10, z: 10}
+  maximumSpeed: {x: 10, y: 10, z: 0}
   acceleration: 0
   deceleration: 0
 --- !u!114 &7473288281277904184

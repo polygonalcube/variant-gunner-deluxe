@@ -10,7 +10,7 @@ public class LevelBackground : MonoBehaviour
 
     void Update()
     {
-        if (transitionToThree == true)
+        if (transitionToThree)
         {
             transform.position = Vector3.Lerp(levelPos[1], levelPos[2], levelDist);
             transform.eulerAngles = Vector3.Slerp(levelEul[1], levelEul[2], levelDist);
@@ -20,7 +20,10 @@ public class LevelBackground : MonoBehaviour
             transform.position = Vector3.Lerp(levelPos[0], levelPos[1], levelDist);
             transform.eulerAngles = Vector3.Slerp(levelEul[0], levelEul[1], levelDist);
         }
-        
-        if (GameManager.gm.level >= 2) levelDist += transitionSpd * Time.deltaTime;
+
+        if (GameManager.gm.level >= 2)
+        {
+            levelDist += transitionSpd * Time.deltaTime;
+        }
     }
 }

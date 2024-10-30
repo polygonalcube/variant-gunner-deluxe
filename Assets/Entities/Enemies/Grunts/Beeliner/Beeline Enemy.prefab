@@ -99,8 +99,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d7537ecda57381cd94fe67f3edab18c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currenthealth: 3
-  maxHealth: 3
+  currenthealth: 15
+  maxHealth: 15
   healthStartsAtMax: 1
 --- !u!114 &4240974858904094587
 MonoBehaviour:
@@ -124,6 +124,7 @@ MonoBehaviour:
   usesInvincibilityFrames: 1
   invincibilitySeconds: 0
   invincibilitySecondsSet: 0.033333335
+  isActive: 1
 --- !u!114 &4240974858904094585
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -14,7 +14,7 @@ public class DestroyOnContact : MonoBehaviour
 
     void OnTriggerEnter(Collider col)
     {
-        if((layers.value & 1<<col.gameObject.layer) == 1<<col.gameObject.layer)
+        if (layers.Contains(col))// (layers.value & 1 << col.gameObject.layer) == 1 << col.gameObject.layer)
         {
             StartCoroutine(DestroyNextFrame());
         }
@@ -24,6 +24,6 @@ public class DestroyOnContact : MonoBehaviour
     {
         willDie = true;
         yield return new WaitForEndOfFrame();
-        Destroy(this.gameObject);
+        Destroy(gameObject);
     }
 }

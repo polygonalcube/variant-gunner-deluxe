@@ -20,6 +20,7 @@ GameObject:
   - component: {fileID: 7711423940509751279}
   - component: {fileID: 8465504560207357527}
   - component: {fileID: 1827894867590985599}
+  - component: {fileID: 6275330766177295818}
   m_Layer: 6
   m_Name: Boss 3
   m_TagString: Untagged
@@ -57,9 +58,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e89342b0ff0f7553995de1792abe2b5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: {fileID: 5429420955084782427}
-  moveComponentEnter: {fileID: 0}
-  moveComponentAttack: {fileID: 0}
+  healthManager: {fileID: 5429420955084782427}
+  moveComponentEnter: {fileID: 5642555268203770287}
+  moveComponentAttack: {fileID: 8285439103569011304}
   bomb: {fileID: 7711423940509751279}
   bombUp: {fileID: 1827894867590985599}
   finalPosTop: {x: 0, y: 4, z: 0}
@@ -107,8 +108,8 @@ MonoBehaviour:
   currentSpeedX: 0
   currentSpeedY: 0
   currentSpeedZ: 0
-  maximumSpeed: {x: 10, y: 10, z: 10}
-  acceleration: 0
+  maximumSpeed: {x: 3, y: 3, z: 0}
+  acceleration: 3
   deceleration: 0
 --- !u!54 &2961392602329419853
 Rigidbody:
@@ -141,9 +142,9 @@ MonoBehaviour:
   currentSpeedX: 0
   currentSpeedY: 0
   currentSpeedZ: 0
-  maximumSpeed: {x: 10, y: 10, z: 10}
-  acceleration: 0
-  deceleration: 0
+  maximumSpeed: {x: 5, y: 5, z: 0}
+  acceleration: 0.25
+  deceleration: 5
 --- !u!114 &5566274247905519342
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -179,7 +180,8 @@ MonoBehaviour:
   immediateDeath: 0
   usesInvincibilityFrames: 0
   invincibilitySeconds: 0
-  invincibilitySecondsSet: 0
+  invincibilitySecondsSet: 0.03333334
+  isActive: 1
 --- !u!114 &7711423940509751279
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -203,7 +205,7 @@ MonoBehaviour:
   layer: Enemy Bullets
   destroyOnContactLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 512
 --- !u!135 &8465504560207357527
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -213,7 +215,7 @@ SphereCollider:
   m_GameObject: {fileID: 3281324392784994084}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 2
   m_Center: {x: 0, y: 0, z: 0}
@@ -240,7 +242,21 @@ MonoBehaviour:
   layer: Enemy Bullets
   destroyOnContactLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 512
+--- !u!136 &6275330766177295818
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3281324392784994084}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 2
+  m_Height: 5
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5227318013959666268
 GameObject:
   m_ObjectHideFlags: 0

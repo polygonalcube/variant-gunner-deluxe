@@ -83,8 +83,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c70190461c06e0c10a9e4b0b4d9344b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gun: {fileID: 343523652250961917}
-  hp: {fileID: 343523652250961918}
+  bulletOrigin: {fileID: 0}
+  healthManager: {fileID: 0}
+  hurtbox: {fileID: 0}
   moveComponent: {fileID: 0}
   entranceSpeed: 5
   finalPos: {x: 0, y: 0, z: 0}
@@ -92,7 +93,7 @@ MonoBehaviour:
   timer: 0
   timerSet: 3
   bulletCount: 60
-  player: {fileID: 0}
+  playerTransform: {fileID: 0}
   shields:
   - {fileID: 343523651993360701}
   - {fileID: 343523652724193545}
@@ -139,7 +140,7 @@ MonoBehaviour:
   layer: Enemy Bullets
   destroyOnContactLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 520
 --- !u!114 &343523652250961918
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -153,7 +154,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currenthealth: 0
-  maxHealth: 400
+  maxHealth: 150
   healthStartsAtMax: 1
 --- !u!114 &2172650018331252218
 MonoBehaviour:
@@ -177,6 +178,7 @@ MonoBehaviour:
   usesInvincibilityFrames: 0
   invincibilitySeconds: 0
   invincibilitySecondsSet: 0
+  isActive: 1
 --- !u!114 &-3740008623368057172
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -219,8 +221,8 @@ MonoBehaviour:
   currentSpeedX: 0
   currentSpeedY: 0
   currentSpeedZ: 0
-  maximumSpeed: {x: 10, y: 10, z: 10}
-  acceleration: 0
+  maximumSpeed: {x: 1, y: 0, z: 0}
+  acceleration: 0.25
   deceleration: 0
 --- !u!1 &343523653721254357
 GameObject:

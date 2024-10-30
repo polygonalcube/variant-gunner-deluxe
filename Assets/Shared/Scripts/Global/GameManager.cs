@@ -27,14 +27,14 @@ public class GameManager : MonoBehaviour
     {
         if (gm != null && gm != this)
         {
-            Destroy(this.gameObject);
+            Destroy(gameObject);
         }
         else
         {
             gm = this;
         }
 
-        DontDestroyOnLoad(this.gameObject);
+        DontDestroyOnLoad(gameObject);
     }
 
     void Start()
@@ -64,7 +64,7 @@ public class GameManager : MonoBehaviour
             }
         }
         
-        if (destroyAllBullets == true)
+        if (destroyAllBullets)
         {
             destroyAllBullets = false;
         }
@@ -125,6 +125,9 @@ public class GameManager : MonoBehaviour
 
     IEnumerator Level1()
     {
+        yield return new WaitUntil(() => gameTime > 0.2f);
+        bkgd = GameObject.Find("Background").GetComponent<LevelBackground>();
+        
         Instantiate(enemies[0], new Vector3(-6f, 6.5f, 0f), Quaternion.identity);
         Instantiate(enemies[0], new Vector3(-4f, 8.5f, 0f), Quaternion.identity);
         Instantiate(enemies[0], new Vector3(-2f, 10.5f, 0f), Quaternion.identity);
@@ -138,6 +141,9 @@ public class GameManager : MonoBehaviour
 
     IEnumerator Level2()
     {
+        yield return new WaitUntil(() => gameTime > 0.2f);
+        bkgd = GameObject.Find("Background").GetComponent<LevelBackground>();
+        
         Instantiate(enemies[0], new Vector3(-1f, 6.5f, 0f), Quaternion.identity);
         Instantiate(enemies[0], new Vector3(-2f, 7f, 0f), Quaternion.identity);
         Instantiate(enemies[0], new Vector3(-3f, 7.5f, 0f), Quaternion.identity);
@@ -173,17 +179,19 @@ public class GameManager : MonoBehaviour
         Instantiate(enemies[1], new Vector3(7f, -7f, 0f), Quaternion.identity);
         yield return new WaitUntil(() => bkgd.levelDist >= 1f);
         Instantiate(bosses[1], new Vector3(0f, 0f, -11f), Quaternion.identity);
+        yield return new WaitForSeconds(0.1f);
         yield return new WaitUntil(() => GameObject.Find("Boss 2(Clone)").GetComponent<HPComponent>().currenthealth <= 0f);
         yield return new WaitForSeconds(3);
         bkgd.levelDist = 0f;
         bkgd.transitionSpd *= 3f;
         bkgd.transitionToThree = true;
         yield return new WaitUntil(() => bkgd.levelDist >= 1f);
+        int hPSet = playerHPTrack;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-        level++;
+        level = 3;
         Debug.Log("Going to level 3!");
         //StartCoroutine(CarryPlayerHP());
-        int hPSet = playerHPTrack;
+        
         while(true)
         {
             if (player == null)
@@ -201,6 +209,7 @@ public class GameManager : MonoBehaviour
 
     IEnumerator Level3()
     {
+        yield return new WaitUntil(() => gameTime > 0.2f);
         Instantiate(enemies[0], new Vector3(-7f, 7f, 0f), Quaternion.identity);
         Instantiate(enemies[0], new Vector3(-6f, 7f, 0f), Quaternion.identity);
         Instantiate(enemies[0], new Vector3(-5f, 7f, 0f), Quaternion.identity);

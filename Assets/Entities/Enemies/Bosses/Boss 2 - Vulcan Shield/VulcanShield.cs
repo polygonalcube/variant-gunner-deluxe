@@ -1,14 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class VulcanShield : MonoBehaviour
 {
-    public ShootComponent gun;
-    public HPComponent hp;
+    public ShootComponent bulletOrigin;
+    public HPComponent healthManager;
+    public HurtComponent hurtbox;
     public MoveComponent moveComponent;
 
-    int state; //0=enter, 1=dying, 2=attacking, 3=positioning
     public float entranceSpeed;
     public Vector3 finalPos; //0,0,0
     public Animator anim;
@@ -16,102 +17,143 @@ public class VulcanShield : MonoBehaviour
     public float timerSet;
     public float bulletCount;
 
-    public Transform player;
+    public Transform playerTransform;
 
     public Collider[] shields;
+    
+    enum States
+    {
+        Entering,
+        Positioning,
+        Attacking,
+        Dying
+    }
+    States currentState = States.Entering;
+    
+    void Awake()
+    {
+        //enemyMethods = GetComponent<EnemyMethodsComponent>();
+        healthManager = GetComponent<HPComponent>();
+        hurtbox = GetComponent<HurtComponent>();
+        moveComponent = GetComponent<MoveComponent>();
+        bulletOrigin = GetComponent<ShootComponent>();
 
+        //playerTransform = enemyMethods.FindPlayer()?.transform;
+    }
+    
     void Start()
     {
-        state = 0;
         GameObject goPlayer = GameObject.Find("Player");
         if (goPlayer != null)
         {
-            player = GameObject.Find("Player").transform;
+            playerTransform = GameObject.Find("Player").transform;
         }
+        
+        hurtbox.isActive = false;
     }
     
     void Update()
     {
-        if (state == 0)
+        switch (currentState)
         {
-            transform.position = Vector3.MoveTowards(transform.position, finalPos, entranceSpeed * Time.deltaTime);
-            if (transform.position == finalPos)
-            {
-                timer = timerSet;
-                state = 3;
-            }
-        }
-
-        if (state == 2)
-        {
-            anim.Play("attack");
-            timer -= Time.deltaTime;
-            foreach (Collider shield in shields)
-            {
-                shield.enabled = false;
-            }
-            if (gun.shotTimer <= 0)
-            {
-                for (int i = 0; i < bulletCount; i++)
+            case States.Entering:
+                transform.position = Vector3.MoveTowards(transform.position, finalPos, entranceSpeed * Time.deltaTime);
+                if (transform.position == finalPos)
                 {
-                    gun.shotAngle = 360f/bulletCount*(float)i;
-                    gun.ShootAng(gun.bulletSpeedAng);
-                    gun.shotTimer = 0f;
+                    timer = timerSet;
+                    hurtbox.isActive = false;
+                    currentState = States.Positioning;
                 }
-                gun.shotTimer = gun.shotTimerSet;
-                timer = timerSet;
-            }
-            if (timer <= 0)
-            {
-                timer = timerSet;
-                state = 3;
-            }
-            if (hp.currenthealth <= 0)
-            {
-                state = 1;
-                timer = timerSet;
-            }
-        }
-
-        if (state == 3)
-        {
-            anim.Play("defend");
-            timer -= Time.deltaTime;
-            foreach (Collider shield in shields)
-            {
-                shield.enabled = true;
-            }
-            if (player != null)
-            {
-                if (player.position.x < transform.position.x)
+                
+                break;
+            case States.Positioning:
+                anim.Play("defend");
+                
+                timer -= Time.deltaTime;
+                
+                foreach (Collider shield in shields)
                 {
-                    moveComponent.Move(new Vector3(-1f, 0f, 0f));
+                    shield.enabled = true;
                 }
-                else if (player.position.x > transform.position.x)
+                
+                if (playerTransform?.position.x < transform.position.x - 0.1f)
                 {
-                    moveComponent.Move(new Vector3(1f, 0f, 0f));
+                    moveComponent.Move(Vector3.left);
                 }
-            }
-            if (timer <= 0)
-            {
-                timer = timerSet;
-                state = 2;
-            }
-            if (hp.currenthealth <= 0)
-            {
-                state = 1;
-                timer = timerSet;
-            }
-        }
+                else if (playerTransform?.position.x > transform.position.x + 0.1f)
+                {
+                    moveComponent.Move(Vector3.right);
+                }
+                else
+                {
+                    moveComponent.Move(Vector3.zero);
+                }
+                
+                if (healthManager.IsDead())
+                {
+                    timer = timerSet;
+                    hurtbox.isActive = false;
+                    currentState = States.Dying;
+                }
+                else if (timer <= 0f)
+                {
+                    timer = timerSet;
+                    hurtbox.isActive = true;
+                    currentState = States.Attacking;
+                }
+                
+                break;
+            case States.Attacking:
+                anim.Play("attack");
 
-        if (state == 1)
-        {
-            timer -= Time.deltaTime;
-            transform.eulerAngles += new Vector3(8f, 8f, 8f) * Time.deltaTime;
-            if (timer <= 0)
-            {
-                Destroy(this.gameObject);
-            }
+                timer -= Time.deltaTime;
+                
+                foreach (Collider shield in shields)
+                {
+                    shield.enabled = false;
+                }
+                
+                if (bulletOrigin.shotTimer <= 0)
+                {
+                    for (int i = 0; i < bulletCount; i++)
+                    {
+                        bulletOrigin.shotAngle = 360f/bulletCount*(float)i;
+                        bulletOrigin.ShootAng(bulletOrigin.bulletSpeedAng);
+                        bulletOrigin.shotTimer = 0f;
+                    }
+                    bulletOrigin.shotTimer = bulletOrigin.shotTimerSet;
+                    timer = timerSet;
+                }
+                
+                if (healthManager.IsDead())
+                {
+                    timer = timerSet;
+                    hurtbox.isActive = false;
+                    currentState = States.Dying;
+                }
+                else if (timer <= 0f)
+                {
+                    timer = timerSet;
+                    hurtbox.isActive = false;
+                    currentState = States.Positioning;
+                }
+                /*if (hp.currenthealth <= 0)
+                {
+                    state = 1;
+                    timer = timerSet;
+                }*/
+                
+                break;
+            case States.Dying:
+                transform.eulerAngles += new Vector3(8f, 8f, 8f) * Time.deltaTime;
+                
+                timer -= Time.deltaTime;
+                if (timer <= 0)
+                {
+                    Destroy(gameObject);
+                }
+                
+                break;
         }
     }
 }

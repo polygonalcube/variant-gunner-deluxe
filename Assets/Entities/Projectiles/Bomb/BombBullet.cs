@@ -12,7 +12,7 @@ public class BombBullet : MonoBehaviour
     void Update()
     {
         mov.Move(Vector3.down);
-        if (doc.willDie == true)
+        if (doc.willDie)
         {
             GameObject newSplode = Instantiate(explosion, transform.position, Quaternion.identity);
             newSplode.GetComponent<Explosion>().duration = exploLen;

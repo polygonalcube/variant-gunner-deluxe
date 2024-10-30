@@ -99,7 +99,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af4923a22db1af01dad559f5d51e4533, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entranceSpeed: 100
+  entranceSpeed: 200
   entranceAngle: {x: -50, y: -30, z: 0}
   finalPos: {x: 0, y: 1.5, z: 0}
   anim: {fileID: 6384142169696112993}
@@ -129,7 +129,7 @@ MonoBehaviour:
   layer: Enemy Bullets
   destroyOnContactLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 512
 --- !u!114 &2060139399682821857
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -169,7 +169,8 @@ MonoBehaviour:
   immediateDeath: 0
   usesInvincibilityFrames: 0
   invincibilitySeconds: 0
-  invincibilitySecondsSet: 0
+  invincibilitySecondsSet: 0.03333334
+  isActive: 1
 --- !u!114 &2060139399682821859
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -183,7 +184,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currenthealth: 0
-  maxHealth: 500
+  maxHealth: 450
   healthStartsAtMax: 1
 --- !u!114 &2060139399682821858
 MonoBehaviour:

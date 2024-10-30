@@ -16,6 +16,8 @@ public class HurtComponent : MonoBehaviour
     public float invincibilitySeconds = 0f;
     public float invincibilitySecondsSet;
 
+    public bool isActive = true;
+
     private void Awake()
     {
         if (healthManager == null)
@@ -28,22 +30,30 @@ public class HurtComponent : MonoBehaviour
             scoreManager = GetComponent<ScoreComponent>();
         }
         
-        /*if ( == null)
+        if (meshRenderer == null)
         {
-            healthManager = GetComponent<HPComponent>();
-        }*/
+            meshRenderer = gameObject;
+        }
     }
 
     void Update()
     {
+        if (!isActive)
+        {
+            return;
+        }
         if (usesInvincibilityFrames)
         {
             invincibilitySeconds -= Time.deltaTime;
+            if (meshRenderer == null)
+            {
+                return;
+            }
             if (invincibilitySeconds > 0f)
             {
-                meshRenderer.SetActive(!meshRenderer.activeSelf);
+                meshRenderer?.SetActive(!meshRenderer.activeSelf);
             }
-            else meshRenderer.SetActive(true);
+            else meshRenderer?.SetActive(true);
         }
         else
         {
@@ -67,13 +77,19 @@ public class HurtComponent : MonoBehaviour
     //Needs a trigger collider to be present on the game object.
     void OnTriggerEnter(Collider otherCollider)
     {
-        if (dangerousLayers.Contains(otherCollider) && otherCollider.gameObject.TryGetComponent<HitComponent>(out HitComponent hitbox))
+        if (isActive && dangerousLayers.Contains(otherCollider) && 
+            otherCollider.gameObject.TryGetComponent<HitComponent>(out HitComponent hitbox))
         {
             if (healthManager == null)
             {
                 return;
             }
-            healthManager.currenthealth -= hitbox.hitStrength;
+
+            if (invincibilitySeconds <= 0f)
+            {
+                healthManager.ChangeHealth(hitbox.hitStrength);
+            }
+            
             if (usesInvincibilityFrames) 
             {
                 invincibilitySeconds = invincibilitySecondsSet;
@@ -104,9 +120,9 @@ public class HurtComponent : MonoBehaviour
         }
         else
         {
-            Debug.Log(gameObject.name + "'s HurtComponent collider check results: " + 
+            /*Debug.Log(gameObject.name + "'s HurtComponent collider check results: " + 
                       dangerousLayers.Contains(otherCollider) + ", " + 
-                      otherCollider.gameObject.TryGetComponent<HitComponent>(out HitComponent hit));
+                      otherCollider.gameObject.TryGetComponent<HitComponent>(out HitComponent hit));*/
         }
     }
 }

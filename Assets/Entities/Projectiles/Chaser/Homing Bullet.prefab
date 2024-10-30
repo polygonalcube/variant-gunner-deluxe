@@ -24,14 +24,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4235801556412718541}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0.5, y: -0.5, z: -0.5, w: 0.5}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.044, y: 0.044, z: 0.044}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 3751697524919808619}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: -90}
 --- !u!212 &5018077164922769236
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -114,7 +114,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7284090451881271470}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0.014421701, y: 0.5012146, z: 0.008354924, w: 0.86516255}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -122,7 +122,7 @@ Transform:
   - {fileID: 2686242323673496296}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -1.91, y: 60.17, z: 0}
 --- !u!114 &4614313689096297053
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -153,12 +153,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7623d92d693da5d87a03f246569a4322, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveDir: {x: 0, y: 0, z: 0}
-  xSpeed: 0
-  ySpeed: 0
-  maxSpeed: 8
-  accel: 8
-  decel: 8
+  currentSpeedX: 0
+  currentSpeedY: 0
+  currentSpeedZ: 0
+  maximumSpeed: {x: 8, y: 8, z: 0}
+  acceleration: 0
+  deceleration: 0
 --- !u!114 &7372716372981372376
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -171,7 +171,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad6afe9051a4393e1ae829941b78b9fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 1
+  hitStrength: 1
 --- !u!136 &7198267350827891626
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -184,7 +184,7 @@ CapsuleCollider:
   m_Enabled: 1
   m_Radius: 0.1
   m_Height: 0.4
-  m_Direction: 1
+  m_Direction: 2
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &-7921060805652629236
 Rigidbody:
@@ -217,6 +217,7 @@ MonoBehaviour:
   layers:
     serializedVersion: 2
     m_Bits: 0
+  willDie: 0
 --- !u!114 &-8156686717591973745
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -400,9 +400,10 @@ MonoBehaviour:
     m_Bits: 328
   meshRenderer: {fileID: 8844091619110059307}
   immediateDeath: 0
-  usesInvincibilityFrames: 0
+  usesInvincibilityFrames: 1
   invincibilitySeconds: 0
-  invincibilitySecondsSet: 0
+  invincibilitySecondsSet: 1
+  isActive: 1
 --- !u!114 &8538243980001864243
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -444,7 +445,7 @@ MonoBehaviour:
   layer: Player Bullets
   destroyOnContactLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 72
 --- !u!114 &8538243980001864249
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -516,7 +517,7 @@ MonoBehaviour:
   layer: Player Bullets
   destroyOnContactLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 72
 --- !u!114 &8538243980001864247
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -540,7 +541,7 @@ MonoBehaviour:
   layer: Player Bullets
   destroyOnContactLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 72
 --- !u!114 &8538243980001864245
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -561,10 +562,10 @@ MonoBehaviour:
   bulletSpeed: {x: 0, y: -5}
   bulletSpeedAng: 0
   destroyTimer: 7
-  layer: Player Bullets
+  layer: 
   destroyOnContactLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 72
 --- !u!1 &8538243980322326806
 GameObject:
   m_ObjectHideFlags: 0

@@ -16,9 +16,9 @@ public class MoveComponent : MonoBehaviour
 
     public void Accelerate(ref float speedVar, float direction)
     {
-        Debug.Log(gameObject.name + ": speedVar before acceleration: " + speedVar);
+        //Debug.Log(gameObject.name + ": speedVar before acceleration: " + speedVar);
         speedVar += acceleration * direction;
-        Debug.Log(gameObject.name + ": Result of acceleration: " + "speedVar: " + speedVar + " direction: " + direction + " acceleration: " + acceleration);
+        //Debug.Log(gameObject.name + ": Result of acceleration: " + "speedVar: " + speedVar + " direction: " + direction + " acceleration: " + acceleration);
         //speedVar = -1f;
         //return speedVar;
     }
