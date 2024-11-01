@@ -1,17 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Explosion : MonoBehaviour
 {
-    public float duration;
+    [HideInInspector] public float duration;
     
     void Update()
     {
         duration -= Time.deltaTime;
-        if (duration <= 0)
+        if (duration <= 0f)
         {
-            Destroy(this.gameObject);
+            Destroy(gameObject);
         }
     }
 }

@@ -2,9 +2,6 @@ using UnityEngine;
 
 public class MoveComponent : MonoBehaviour
 {
-    //public Vector3 moveDirection = Vector3.zero;
-    //public Vector3 currentSpeed = Vector3.zero;
-    
     public float currentSpeedX;
     public float currentSpeedY;
     public float currentSpeedZ;
@@ -16,11 +13,7 @@ public class MoveComponent : MonoBehaviour
 
     public void Accelerate(ref float speedVar, float direction)
     {
-        //Debug.Log(gameObject.name + ": speedVar before acceleration: " + speedVar);
         speedVar += acceleration * direction;
-        //Debug.Log(gameObject.name + ": Result of acceleration: " + "speedVar: " + speedVar + " direction: " + direction + " acceleration: " + acceleration);
-        //speedVar = -1f;
-        //return speedVar;
     }
 
     public void Decelerate(ref float speedVar)
@@ -30,17 +23,6 @@ public class MoveComponent : MonoBehaviour
         {
             speedVar = 0f;
         }
-        //Debug.Log(gameObject.name + ": Result of deceleration: " + speedVar);
-        //return speedVar;
-    }
-
-    public float CheckNearZero(float speedVar)
-    {
-        if (Mathf.Abs(speedVar) < 0.01f)
-        {
-            return 0f;
-        }
-        else return speedVar;
     }
 
     public void Cap(ref float speedVar, float speedCap, float direction)
@@ -67,7 +49,6 @@ public class MoveComponent : MonoBehaviour
                 speedVar = speedCap * direction;
             }
         }
-        //return speedVar;
     }
 
     public void BoundXY(float xBound, float yBound)
@@ -130,7 +111,6 @@ public class MoveComponent : MonoBehaviour
         Cap(ref currentSpeedZ, maximumSpeed.z, moveDirection.z);
 	
         transform.position += new Vector3(currentSpeedX, currentSpeedY, currentSpeedZ) * Time.deltaTime;
-        //return new Vector3(currentSpeedX, currentSpeedY, currentSpeedZ) * Time.deltaTime;
     }
 
     public void MoveAng(Vector3 direction)

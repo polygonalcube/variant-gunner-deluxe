@@ -2,11 +2,13 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+[RequireComponent(typeof(HPComponent))]
+[RequireComponent(typeof(MoveComponent))]
+
 public class PlayerController : MonoBehaviour
 {
-    public HPComponent hp;
-    public HurtComponent hbox;
-    public MoveComponent mov;
+    [SerializeField] private HPComponent healthManager;
+    [SerializeField] private MoveComponent mover;
 
     public ShootComponent vulcan;
     public ShootComponent laser;
@@ -15,7 +17,7 @@ public class PlayerController : MonoBehaviour
     public ShootComponent homing1;
     public ShootComponent bomb;
 
-    public Vector3 xy = Vector3.zero;
+    private Vector2 movementDirection = Vector2.zero;
 
     public bool vulcanPerformed;
     public bool laserPerformed;
@@ -51,49 +53,54 @@ public class PlayerController : MonoBehaviour
         shootBomb.Disable();
     }
 
+    private void Awake()
+    {
+        healthManager = GetComponent<HPComponent>();
+        mover = GetComponent<MoveComponent>();
+    }
+
     void Update()
     {
         ReceiveInput();
         Movement();
         Shooting();
-        ResetInput();
+        ResetInputBooleans();
         WhenDying();
     }
 
     void Movement()
     {
-        mov.Move(xy);
-
-        //mov.xSpeed = mov.CheckNearZero(mov.xSpeed);
-        //mov.ySpeed = mov.CheckNearZero(mov.ySpeed);
-
-        mov.BoundXY(7.2f, 5.3f);
+        mover.Move(new Vector3(movementDirection.x, movementDirection.y, 0f));
+        mover.BoundXY(7.2f, 5.3f);
     }
 
     void Shooting()
     {
-        InputAction[] shootAction = {shootVulcan, shootLaser, shootHoming, shootBomb};
-        ShootComponent[] shooter = {vulcan, laser, homing0, bomb, homing1, laser1};
+        InputAction[] shootActions = { shootVulcan, shootLaser, shootHoming, shootBomb };
+        ShootComponent[] shooters = { vulcan, laser, homing0, bomb, homing1, laser1 };
+
         for (int i = 0; i < 4; i++)
         {
-            if (shootAction[i].IsPressed())
+            if (shootActions[i].IsPressed())
             {
-                if (i == 2) //homing
+                bool usingHoming = i == 2;
+                bool usingLaser = i == 1;
+
+                if (usingHoming)
                 {
-                    shooter[i].Shoot(new Vector2(shooter[i].bulletSpeed.x, shooter[i].bulletSpeed.y));
-                    shooter[4].Shoot(new Vector2(shooter[4].bulletSpeed.x, shooter[4].bulletSpeed.y));
+                    shooters[i].Shoot(new Vector2(shooters[i].bulletSpeed.x, shooters[i].bulletSpeed.y));
+                    shooters[4].Shoot(new Vector2(shooters[4].bulletSpeed.x, shooters[4].bulletSpeed.y));
                 }
-                else if (i == 1) //laser
+                else if (usingLaser)
                 {
-                    shooter[i].ShootAng(shooter[i].bulletSpeedAng);
-                    shooter[5].ShootAng(shooter[5].bulletSpeedAng);
+                    shooters[i].ShootAng(shooters[i].bulletSpeedAng);
+                    shooters[5].ShootAng(shooters[5].bulletSpeedAng);
                 }
                 else
                 {
-                    shooter[i].Shoot(new Vector2(shooter[i].bulletSpeed.x, shooter[i].bulletSpeed.y));
+                    shooters[i].Shoot(new Vector2(shooters[i].bulletSpeed.x, shooters[i].bulletSpeed.y));
                 }
 
-                //sfx[1].Play(); //Play shoot sound
                 break;
             }
         }
@@ -101,21 +108,20 @@ public class PlayerController : MonoBehaviour
 
     void ReceiveInput()
     {
-        xy = movement.ReadValue<Vector2>();
+        movementDirection = movement.ReadValue<Vector2>();
     }
 
-    void ResetInput()
+    void ResetInputBooleans()
     {
-        //resets the input booleans
         vulcanPerformed = false;
         laserPerformed = false;
         homingPerformed = false;
         bombPerformed = false;
     }
-    
+
     void WhenDying()
     {
-        if (hp.IsDead())
+        if (healthManager.IsDead())
         {
             StartCoroutine(Die());
         }

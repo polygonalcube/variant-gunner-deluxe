@@ -52,7 +52,6 @@ public class ShootComponent : MonoBehaviour
             if (newBullet.TryGetComponent<MoveComponent>(out MoveComponent moveComponemt))
             {
                 moveComponemt.maximumSpeed.x = speed;
-                //moveComponemt.maximumSpeed.y = speed;
             }
         }
     }

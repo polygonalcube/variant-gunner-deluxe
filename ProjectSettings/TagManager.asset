@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Shield
+  - Boss 1
+  - Boss 2
+  - Boss 3
   layers:
   - Default
   - TransparentFX

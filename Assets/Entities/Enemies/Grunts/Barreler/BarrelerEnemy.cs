@@ -1,79 +1,69 @@
 using UnityEngine;
 
+[RequireComponent(typeof(EnemyMethodsComponent))]
+[RequireComponent(typeof(HPComponent))]
+[RequireComponent(typeof(HurtComponent))]
+[RequireComponent(typeof(ShootComponent))]
+
 public class BarrelerEnemy : MonoBehaviour
 {
-    public MoveComponent movEnter;
-    public MoveComponent movAttack;
-    public ShootComponent gun;
-    public Transform player;
-    Vector3 playerPos;
-    public int state;
+    private EnemyMethodsComponent enemyMethods;
+    [SerializeField] private MoveComponent moveComponentEnter;
+    [SerializeField] private MoveComponent moveComponentAttack;
+    private ShootComponent shooter;
+
+    private Transform playerTransform;
 
     public Vector3 attackMoveDirection;
 
-    void Start()
+    enum States
     {
-        GameObject goPlayer = GameObject.Find("Player");
-        if (goPlayer != null)
-        {
-            player = GameObject.Find("Player").transform;
-        }
+        Entering,
+        Barrelling
     }
-    
+
+    States currentState = States.Entering;
+
+    void Awake()
+    {
+        enemyMethods = GetComponent<EnemyMethodsComponent>();
+        shooter = GetComponent<ShootComponent>();
+
+        playerTransform = enemyMethods.FindPlayer()?.transform;
+    }
+
     void Update()
     {
-        if (state == 0)
+        switch (currentState)
         {
-            movEnter.Move(Vector3.up);
-            if (player != null)
-            {
+            case States.Entering:
+                moveComponentEnter.Move(Vector3.up);
+                
+                if (playerTransform == null)
+                {
+                    playerTransform = enemyMethods.FindPlayer()?.transform;
+                }
+                
                 if (transform.position.y > -5f)
                 {
-                    playerPos = player.position;
-                    /*
-                    Vector3 currentPos = transform.position;
-                    Vector3 currentEuler = transform.eulerAngles;
-                    //transform.position = new Vector3(vulcan.shotOrigin.position.x, vulcan.shotOrigin.position.y, 0f);
-                    transform.LookAt(player.transform, Vector3.up);
-                    Vector3 pointer = transform.eulerAngles;
-                    transform.position = currentPos;
-                    transform.eulerAngles = currentEuler;
-
-                    transform.eulerAngles = new Vector3(0f, 0f, pointer.x + 180f);
-                    */
+                    Vector3 playerPos = playerTransform.position;
 
                     Vector3 pointVec = playerPos - transform.position;
-                    //pointVec = pointVec.normalized;
-                    //Vector3.ClampMagnitude(pointVec, mov.maxSpeed);
-                    pointVec = pointVec * (movAttack.maximumSpeed.x/pointVec.magnitude);
+                    pointVec *= (moveComponentAttack.maximumSpeed.x / pointVec.magnitude);
                     attackMoveDirection = new Vector3(pointVec.x, pointVec.y, 0f);
-                    //movAttack.Move();
-                    
-                    movAttack.currentSpeedX = pointVec.x;
-                    movAttack.currentSpeedY = pointVec.y;
 
-                    state++;
+                    moveComponentAttack.currentSpeedX = pointVec.x;
+                    moveComponentAttack.currentSpeedY = pointVec.y;
+
+                    currentState = States.Barrelling;
                 }
-            }
-        }
-        /*
-        if (state == 1)
-        {
-            Vector3 pointVec = playerPos - transform.position;
-            //pointVec = pointVec.normalized;
-            //Vector3.ClampMagnitude(pointVec, mov.maxSpeed);
-            pointVec = pointVec * (movAttack.maxSpeed/pointVec.magnitude);
-
-            movAttack.xSpeed = pointVec.x;
-            movAttack.ySpeed = pointVec.y;
-            
-        }
-        */
-        if (state == 1)
-        {
-            movAttack.Move(attackMoveDirection);
-            gun.ShootAng(0f);
-            //movAttack.MoveAng(Vector3.up);
+                
+                break;
+            case States.Barrelling:
+                moveComponentAttack.Move(attackMoveDirection);
+                shooter.ShootAng(0f);
+                
+                break;
         }
     }
 }

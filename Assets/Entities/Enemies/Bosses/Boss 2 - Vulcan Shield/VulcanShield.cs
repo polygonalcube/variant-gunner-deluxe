@@ -1,23 +1,27 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
+
+[RequireComponent(typeof(EnemyMethodsComponent))]
+[RequireComponent(typeof(HPComponent))]
+[RequireComponent(typeof(HurtComponent))]
+[RequireComponent(typeof(MoveComponent))]
+[RequireComponent(typeof(ShootComponent))]
 
 public class VulcanShield : MonoBehaviour
 {
-    public ShootComponent bulletOrigin;
-    public HPComponent healthManager;
-    public HurtComponent hurtbox;
-    public MoveComponent moveComponent;
+    private EnemyMethodsComponent enemyMethods;
+    private HPComponent healthManager;
+    private HurtComponent hurtbox;
+    private MoveComponent moveComponent;
+    private ShootComponent shooter;
 
-    public float entranceSpeed;
-    public Vector3 finalPos; //0,0,0
-    public Animator anim;
-    public float timer;
-    public float timerSet;
-    public float bulletCount;
+    [SerializeField] private float entranceSpeed = 6f;
+    [SerializeField] private Vector3 finalPosition = Vector3.zero;
+    [SerializeField] private Animator anim;
+    private float stateChangeTimer;
+    [SerializeField] private float stateChangeTimerSet = 3f;
+    [SerializeField] private int bulletCount = 60;
 
-    public Transform playerTransform;
+    private Transform playerTransform;
 
     public Collider[] shields;
     
@@ -32,23 +36,17 @@ public class VulcanShield : MonoBehaviour
     
     void Awake()
     {
-        //enemyMethods = GetComponent<EnemyMethodsComponent>();
+        enemyMethods = GetComponent<EnemyMethodsComponent>();
         healthManager = GetComponent<HPComponent>();
         hurtbox = GetComponent<HurtComponent>();
         moveComponent = GetComponent<MoveComponent>();
-        bulletOrigin = GetComponent<ShootComponent>();
+        shooter = GetComponent<ShootComponent>();
 
-        //playerTransform = enemyMethods.FindPlayer()?.transform;
+        playerTransform = enemyMethods.FindPlayer()?.transform;
     }
     
     void Start()
     {
-        GameObject goPlayer = GameObject.Find("Player");
-        if (goPlayer != null)
-        {
-            playerTransform = GameObject.Find("Player").transform;
-        }
-        
         hurtbox.isActive = false;
     }
     
@@ -57,10 +55,10 @@ public class VulcanShield : MonoBehaviour
         switch (currentState)
         {
             case States.Entering:
-                transform.position = Vector3.MoveTowards(transform.position, finalPos, entranceSpeed * Time.deltaTime);
-                if (transform.position == finalPos)
+                transform.position = Vector3.MoveTowards(transform.position, finalPosition, entranceSpeed * Time.deltaTime);
+                if (transform.position == finalPosition)
                 {
-                    timer = timerSet;
+                    stateChangeTimer = stateChangeTimerSet;
                     hurtbox.isActive = false;
                     currentState = States.Positioning;
                 }
@@ -68,8 +66,6 @@ public class VulcanShield : MonoBehaviour
                 break;
             case States.Positioning:
                 anim.Play("defend");
-                
-                timer -= Time.deltaTime;
                 
                 foreach (Collider shield in shields)
                 {
@@ -89,15 +85,16 @@ public class VulcanShield : MonoBehaviour
                     moveComponent.Move(Vector3.zero);
                 }
                 
+                stateChangeTimer -= Time.deltaTime;
                 if (healthManager.IsDead())
                 {
-                    timer = timerSet;
+                    stateChangeTimer = stateChangeTimerSet;
                     hurtbox.isActive = false;
                     currentState = States.Dying;
                 }
-                else if (timer <= 0f)
+                else if (stateChangeTimer <= 0f)
                 {
-                    timer = timerSet;
+                    stateChangeTimer = stateChangeTimerSet;
                     hurtbox.isActive = true;
                     currentState = States.Attacking;
                 }
@@ -105,35 +102,33 @@ public class VulcanShield : MonoBehaviour
                 break;
             case States.Attacking:
                 anim.Play("attack");
-
-                timer -= Time.deltaTime;
                 
                 foreach (Collider shield in shields)
                 {
                     shield.enabled = false;
                 }
                 
-                if (bulletOrigin.shotTimer <= 0)
+                if (shooter.shotTimer <= 0)
                 {
                     for (int i = 0; i < bulletCount; i++)
                     {
-                        bulletOrigin.shotAngle = 360f/bulletCount*(float)i;
-                        bulletOrigin.ShootAng(bulletOrigin.bulletSpeedAng);
-                        bulletOrigin.shotTimer = 0f;
+                        shooter.shotAngle = 360f/(float)bulletCount*(float)i;
+                        shooter.ShootAng(shooter.bulletSpeedAng);
+                        shooter.shotTimer = 0f;
                     }
-                    bulletOrigin.shotTimer = bulletOrigin.shotTimerSet;
-                    timer = timerSet;
+                    shooter.shotTimer = shooter.shotTimerSet;
                 }
                 
+                stateChangeTimer -= Time.deltaTime;
                 if (healthManager.IsDead())
                 {
-                    timer = timerSet;
+                    stateChangeTimer = stateChangeTimerSet;
                     hurtbox.isActive = false;
                     currentState = States.Dying;
                 }
-                else if (timer <= 0f)
+                else if (stateChangeTimer <= 0f)
                 {
-                    timer = timerSet;
+                    stateChangeTimer = stateChangeTimerSet;
                     hurtbox.isActive = false;
                     currentState = States.Positioning;
                 }
@@ -147,8 +142,8 @@ public class VulcanShield : MonoBehaviour
             case States.Dying:
                 transform.eulerAngles += new Vector3(8f, 8f, 8f) * Time.deltaTime;
                 
-                timer -= Time.deltaTime;
-                if (timer <= 0)
+                stateChangeTimer -= Time.deltaTime;
+                if (stateChangeTimer <= 0)
                 {
                     Destroy(gameObject);
                 }

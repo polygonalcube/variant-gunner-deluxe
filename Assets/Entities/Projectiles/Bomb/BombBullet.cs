@@ -1,21 +1,29 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+
+[RequireComponent(typeof(DestroyOnContact))]
+[RequireComponent(typeof(MoveComponent))]
 
 public class BombBullet : MonoBehaviour
 {
-    public MoveComponent mov;
-    public DestroyOnContact doc;
-    public GameObject explosion;
-    public float exploLen;
+    private MoveComponent mover;
+    private DestroyOnContact destroyOnContact;
+    public GameObject explosionPrefab;
+    [SerializeField] private float explosionDuration = 1f;
+    
+    void Awake()
+    {
+        destroyOnContact = GetComponent<DestroyOnContact>();
+        mover = GetComponent<MoveComponent>();
+    }
     
     void Update()
     {
-        mov.Move(Vector3.down);
-        if (doc.willDie)
+        mover.Move(Vector3.down);
+        
+        if (destroyOnContact.willDie)
         {
-            GameObject newSplode = Instantiate(explosion, transform.position, Quaternion.identity);
-            newSplode.GetComponent<Explosion>().duration = exploLen;
+            GameObject newExplosion = Instantiate(explosionPrefab, transform.position, Quaternion.identity);
+            newExplosion.GetComponent<Explosion>().duration = explosionDuration;
         }
     }
 }

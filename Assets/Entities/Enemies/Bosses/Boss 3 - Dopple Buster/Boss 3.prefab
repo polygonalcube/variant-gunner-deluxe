@@ -18,12 +18,12 @@ GameObject:
   - component: {fileID: 5566274247905519342}
   - component: {fileID: 5210916494175260785}
   - component: {fileID: 7711423940509751279}
-  - component: {fileID: 8465504560207357527}
   - component: {fileID: 1827894867590985599}
   - component: {fileID: 6275330766177295818}
+  - component: {fileID: 3010532548374709296}
   m_Layer: 6
   m_Name: Boss 3
-  m_TagString: Untagged
+  m_TagString: Boss 3
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -58,11 +58,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e89342b0ff0f7553995de1792abe2b5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthManager: {fileID: 5429420955084782427}
   moveComponentEnter: {fileID: 5642555268203770287}
   moveComponentAttack: {fileID: 8285439103569011304}
   bomb: {fileID: 7711423940509751279}
   bombUp: {fileID: 1827894867590985599}
+  stateChangeTimerSet: 10
+  exitTimerSet: 4
   finalPosTop: {x: 0, y: 4, z: 0}
   finalPosBot: {x: 0, y: -4, z: 0}
 --- !u!114 &5429420955084782427
@@ -77,7 +78,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d7537ecda57381cd94fe67f3edab18c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currenthealth: 0
+  currentHealth: 0
   maxHealth: 1000
   healthStartsAtMax: 1
 --- !u!114 &7033555629100354451
@@ -197,7 +198,7 @@ MonoBehaviour:
   bullet: {fileID: 872073987815196460, guid: 6b47e0601557f7cca8e3c148e5e7450e, type: 3}
   shotOrigin: {fileID: 556197295089920286}
   shotTimer: 0
-  shotTimerSet: 2
+  shotTimerSet: 3
   shotAngle: 0
   bulletSpeed: {x: 0, y: -6}
   bulletSpeedAng: 10
@@ -206,19 +207,6 @@ MonoBehaviour:
   destroyOnContactLayers:
     serializedVersion: 2
     m_Bits: 512
---- !u!135 &8465504560207357527
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3281324392784994084}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Radius: 2
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1827894867590985599
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -231,10 +219,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db11008f0d72d79dcbd77064a915e498, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bullet: {fileID: 872073987815196460, guid: b9a73f0f841e8ff24867841573fee725, type: 3}
+  bullet: {fileID: 872073987815196460, guid: 6b47e0601557f7cca8e3c148e5e7450e, type: 3}
   shotOrigin: {fileID: 9034193666686038787}
   shotTimer: 0
-  shotTimerSet: 2
+  shotTimerSet: 3
   shotAngle: 0
   bulletSpeed: {x: 0, y: 6}
   bulletSpeedAng: 10
@@ -257,6 +245,18 @@ CapsuleCollider:
   m_Height: 5
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &3010532548374709296
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3281324392784994084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0623a484fea444488c98ae75624230e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5227318013959666268
 GameObject:
   m_ObjectHideFlags: 0

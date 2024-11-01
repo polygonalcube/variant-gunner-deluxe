@@ -1,44 +1,47 @@
 using UnityEngine;
 
+[RequireComponent(typeof(EnemyMethodsComponent))]
+[RequireComponent(typeof(HPComponent))]
+[RequireComponent(typeof(HurtComponent))]
+[RequireComponent(typeof(MoveComponent))]
+[RequireComponent(typeof(ShootComponent))]
+
 public class BeelineEnemy : MonoBehaviour
 {
-    public MoveComponent mov;
-    public ShootComponent gun;
-    public Transform player;
+    private EnemyMethodsComponent enemyMethods;
+    private MoveComponent mover;
+    private ShootComponent shooter;
+    
+    private Transform playerTransform;
 
-    void Start()
+    void Awake()
     {
-        GameObject goPlayer = GameObject.Find("Player");
-        if (goPlayer != null)
-        {
-            player = GameObject.Find("Player").transform;
-        }
+        enemyMethods = GetComponent<EnemyMethodsComponent>();
+        mover = GetComponent<MoveComponent>();
+        shooter = GetComponent<ShootComponent>();
+
+        playerTransform = enemyMethods.FindPlayer()?.transform;
     }
     
     void Update()
     {
+        mover.Move(Vector3.down);
         ShootAtPlayer();
-        mov.Move(Vector3.down);
     }
 
     void ShootAtPlayer()
     {
-        if (player != null)
+        if (playerTransform == null)
         {
-            Vector3 currentPos = transform.position;
-            Vector3 currentEuler = transform.eulerAngles;
-            transform.position = new Vector3(gun.shotOrigin.position.x, gun.shotOrigin.position.y, 0f);
-            transform.LookAt(player.transform, Vector3.up);
-            Vector3 pointer = transform.eulerAngles;
-            transform.position = currentPos;
-            transform.eulerAngles = currentEuler;
-
-            gun.shotAngle = pointer.x - 270f;
-            if (player.position.x > gun.shotOrigin.position.x)
-            {
-                gun.shotAngle = -gun.shotAngle;
-            }
-            gun.ShootAng(gun.bulletSpeedAng);
+            playerTransform = enemyMethods.FindPlayer()?.transform;
         }
+        Vector3 angleToPlayer = enemyMethods.AimAtPlayer(shooter.shotOrigin);
+
+        shooter.shotAngle = angleToPlayer.x - 270f;
+        if (playerTransform?.position.x > shooter.shotOrigin.position.x)
+        {
+            shooter.shotAngle = -shooter.shotAngle;
+        }
+        shooter.ShootAng(shooter.bulletSpeedAng);
     }
 }

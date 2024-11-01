@@ -51,7 +51,7 @@ GameObject:
   - component: {fileID: 4329637531688557572}
   m_Layer: 6
   m_Name: Boss 1
-  m_TagString: Untagged
+  m_TagString: Boss 1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -101,10 +101,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   entranceSpeed: 200
   entranceAngle: {x: -50, y: -30, z: 0}
-  finalPos: {x: 0, y: 1.5, z: 0}
-  anim: {fileID: 6384142169696112993}
-  timer: 0
-  timerSet: 1
+  finalPosition: {x: 0, y: 1.5, z: 0}
+  animator: {fileID: 6384142169696112993}
+  stateChangeTimerSet: 1
   exitTimerSet: 3
 --- !u!114 &2060139399682821860
 MonoBehaviour:
@@ -183,7 +182,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d7537ecda57381cd94fe67f3edab18c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currenthealth: 0
+  currentHealth: 0
   maxHealth: 450
   healthStartsAtMax: 1
 --- !u!114 &2060139399682821858

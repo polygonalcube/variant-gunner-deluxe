@@ -1,12 +1,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(MoveComponent))]
+
 public class HomingBullet : MonoBehaviour
 {
-    public MoveComponent mov;
-    public List<Transform> nearbyEnemies = new();
-    public Transform nearest;
+    private MoveComponent mover;
+    private List<Transform> nearbyEnemies = new();
+    private Transform nearestTarget;
     public LayerMask layers;
+
+    void Awake()
+    {
+        mover = GetComponent<MoveComponent>();
+    }
     
     void Update()
     {
@@ -14,35 +21,35 @@ public class HomingBullet : MonoBehaviour
         FindGameObjectsWithLayer();
         foreach (Transform enemy in nearbyEnemies)
         {
-            if (nearest == null)
+            if (nearestTarget == null)
             {
-                nearest = enemy;
+                nearestTarget = enemy;
             }
-            else if (Vector3.Distance(transform.position, enemy.position) < Vector3.Distance(transform.position, nearest.position))
+            else if (Vector3.Distance(transform.position, enemy.position) < Vector3.Distance(transform.position, nearestTarget.position))
             {
-                nearest = enemy;
+                nearestTarget = enemy;
             }
         }
 
-        if (nearest != null && nearest.gameObject.activeSelf)
+        if (nearestTarget != null && nearestTarget.gameObject.activeSelf)
         {
-            Vector3 pointVec = nearest.position - transform.position;
-            pointVec *= mov.maximumSpeed.x/pointVec.magnitude;
+            Vector3 pointVec = nearestTarget.position - transform.position;
+            pointVec *= mover.maximumSpeed.x/pointVec.magnitude;
 
-            mov.currentSpeedX = pointVec.x;
-            mov.currentSpeedY = pointVec.y;
-            mov.Move(Vector3.zero);//
+            mover.currentSpeedX = pointVec.x;
+            mover.currentSpeedY = pointVec.y;
+            mover.Move(Vector3.zero);
 
-            transform.LookAt(nearest);
+            transform.LookAt(nearestTarget);
         }
         else
         {
             transform.eulerAngles = new Vector3(-90f, 90f, 0f);
             
-            mov.currentSpeedY = mov.maximumSpeed.y;
-            mov.Move(Vector3.up);
+            mover.currentSpeedY = mover.maximumSpeed.y;
+            mover.Move(Vector3.up);
         }
-        mov.ResetZ();
+        mover.ResetZ();
     }
 
     void FindGameObjectsWithLayer()

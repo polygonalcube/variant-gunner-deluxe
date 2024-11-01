@@ -619,6 +619,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
   m_SortingOrder: 0
@@ -675,6 +676,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16612a96cf25faa2b855a83a8b045842, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: {fileID: 7590967574763395853}
-  score: {fileID: 7590967573137390724}
-  gameOver: {fileID: 7590967573616608207}
+  healthDisplay: {fileID: 7590967574763395853}
+  scoreDisplay: {fileID: 7590967573137390724}
+  gameOverImage: {fileID: 7590967573616608207}

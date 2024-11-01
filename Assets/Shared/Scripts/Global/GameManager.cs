@@ -6,24 +6,23 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager gm;
 
-    public int score = 0;
-    public int[] weaponLevels = new int[] {0, 0, 0, 0};
+    public int score;
 
     public int level = 1;
     int prevLevel = 1;
-    public bool destroyAllBullets;
+    //public bool destroyAllBullets;
 
-    public LevelBackground bkgd;
+    public LevelBackground levelBackground;
 
     public GameObject[] enemies;
     public GameObject[] bosses;
 
-    public float gameTime;
+    private float timeElapsed;
 
     public GameObject player;
     public int playerHPTrack;
 
-    void Awake() //Allows for Singleton.
+    void Awake()
     {
         if (gm != null && gm != this)
         {
@@ -39,39 +38,39 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        playerHPTrack = 4;
         player = GameObject.Find("Player");
+        playerHPTrack = 4;
+
         prevLevel = level;
-        destroyAllBullets = false;
         if (level == 1 || level == 2)
-            bkgd = GameObject.Find("Background").GetComponent<LevelBackground>();
+        {
+            levelBackground = GameObject.Find("Background").GetComponent<LevelBackground>();
+        }
+
         SpawnEntities();
     }
 
     void Update()
     {
-        gameTime += Time.deltaTime;
-        if (player == null /*|| gameTime < 1f*/)
+        timeElapsed += Time.deltaTime;
+
+        if (player == null)
         {
             player = GameObject.Find("Player");
         }
         else
         {
-            playerHPTrack = player.GetComponent<HPComponent>().currenthealth;
-            if (player.GetComponent<HPComponent>().currenthealth <= 0)
+            playerHPTrack = player.GetComponent<HPComponent>().currentHealth;
+            if (player.GetComponent<HPComponent>().currentHealth <= 0)
             {
                 StartCoroutine(Reload());
             }
         }
-        
-        if (destroyAllBullets)
-        {
-            destroyAllBullets = false;
-        }
+
         if (level != prevLevel)
         {
             prevLevel = level;
-            gameTime = 0f;
+            timeElapsed = 0f;
             SpawnEntities();
         }
 
@@ -81,11 +80,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void SpawnEntities() //Spawns the player and enemies
+    void SpawnEntities()
     {
-        gameTime = 0f;
-        //TO-DO: Make player a prefab and spawn the player
-        if (level == 1) //Decide which enemy spawning coroutine to run, depending on the level
+        timeElapsed = 0f;
+
+        if (level == 1)
         {
             StartCoroutine(Level1());
         }
@@ -97,8 +96,6 @@ public class GameManager : MonoBehaviour
         {
             StartCoroutine(Level3());
         }
-
-        //GetComponent<AudioSource>().Play();
     }
 
     IEnumerator Reload()
@@ -117,82 +114,98 @@ public class GameManager : MonoBehaviour
         {
             StopCoroutine("Level3()");
         }
+
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         if (level == 1 || level == 2)
-            bkgd = GameObject.Find("Background").GetComponent<LevelBackground>();
+        {
+            levelBackground = GameObject.Find("Background").GetComponent<LevelBackground>();
+        }
+
         SpawnEntities();
+    }
+
+    private void SpawnThreeBeelinersAtLeft()
+    {
+        Instantiate(enemies[0], new Vector3(-6f, 6.5f, 0f), Quaternion.identity);
+        Instantiate(enemies[0], new Vector3(-4f, 8.5f, 0f), Quaternion.identity);
+        Instantiate(enemies[0], new Vector3(-2f, 10.5f, 0f), Quaternion.identity);
+    }
+    
+    private void SpawnThreeBeelinersAtRight()
+    {
+        Instantiate(enemies[0], new Vector3(6f, 6.5f, 0f), Quaternion.identity);
+        Instantiate(enemies[0], new Vector3(4f, 8.5f, 0f), Quaternion.identity);
+        Instantiate(enemies[0], new Vector3(2f, 10.5f, 0f), Quaternion.identity);
     }
 
     IEnumerator Level1()
     {
-        yield return new WaitUntil(() => gameTime > 0.2f);
-        bkgd = GameObject.Find("Background").GetComponent<LevelBackground>();
-        
-        Instantiate(enemies[0], new Vector3(-6f, 6.5f, 0f), Quaternion.identity);
-        Instantiate(enemies[0], new Vector3(-4f, 8.5f, 0f), Quaternion.identity);
-        Instantiate(enemies[0], new Vector3(-2f, 10.5f, 0f), Quaternion.identity);
-        yield return new WaitUntil(() => gameTime > 2f);
-        Instantiate(enemies[0], new Vector3(6f, 6.5f, 0f), Quaternion.identity);
-        Instantiate(enemies[0], new Vector3(4f, 8.5f, 0f), Quaternion.identity);
-        Instantiate(enemies[0], new Vector3(2f, 10.5f, 0f), Quaternion.identity);
-        yield return new WaitUntil(() => gameTime > 6f);
+        yield return new WaitUntil(() => timeElapsed > 0.04f);
+        levelBackground = GameObject.Find("Background").GetComponent<LevelBackground>();
+
+        SpawnThreeBeelinersAtLeft();
+        yield return new WaitUntil(() => timeElapsed > 2f);
+        SpawnThreeBeelinersAtRight();
+        yield return new WaitUntil(() => timeElapsed > 6f);
         Instantiate(bosses[0], new Vector3(-200f, 0f, 500f), Quaternion.identity);
+    }
+    
+    private void SpawnSevenBeelinersAtLeft()
+    {
+        Instantiate(enemies[0], new Vector3(-1f, 6.5f, 0f), Quaternion.identity);
+        Instantiate(enemies[0], new Vector3(-2f, 7f, 0f), Quaternion.identity);
+        Instantiate(enemies[0], new Vector3(-3f, 7.5f, 0f), Quaternion.identity);
+        Instantiate(enemies[0], new Vector3(-4f, 8f, 0f), Quaternion.identity);
+        Instantiate(enemies[0], new Vector3(-5f, 8.5f, 0f), Quaternion.identity);
+        Instantiate(enemies[0], new Vector3(-6f, 9f, 0f), Quaternion.identity);
+        Instantiate(enemies[0], new Vector3(-7f, 9.5f, 0f), Quaternion.identity);
+    }
+    
+    private void SpawnSevenBeelinersAtRight()
+    {
+        Instantiate(enemies[0], new Vector3(1f, 6.5f, 0f), Quaternion.identity);
+        Instantiate(enemies[0], new Vector3(2f, 7f, 0f), Quaternion.identity);
+        Instantiate(enemies[0], new Vector3(3f, 7.5f, 0f), Quaternion.identity);
+        Instantiate(enemies[0], new Vector3(4f, 8f, 0f), Quaternion.identity);
+        Instantiate(enemies[0], new Vector3(5f, 8.5f, 0f), Quaternion.identity);
+        Instantiate(enemies[0], new Vector3(6f, 9f, 0f), Quaternion.identity);
+        Instantiate(enemies[0], new Vector3(7f, 9.5f, 0f), Quaternion.identity);
     }
 
     IEnumerator Level2()
     {
-        yield return new WaitUntil(() => gameTime > 0.2f);
-        bkgd = GameObject.Find("Background").GetComponent<LevelBackground>();
-        
-        Instantiate(enemies[0], new Vector3(-1f, 6.5f, 0f), Quaternion.identity);
-        Instantiate(enemies[0], new Vector3(-2f, 7f, 0f), Quaternion.identity);
-        Instantiate(enemies[0], new Vector3(-3f, 7.5f, 0f), Quaternion.identity);
-        Instantiate(enemies[0], new Vector3(-4f, 8f, 0f), Quaternion.identity);
-        Instantiate(enemies[0], new Vector3(-5f, 8.5f, 0f), Quaternion.identity);
-        Instantiate(enemies[0], new Vector3(-6f, 9f, 0f), Quaternion.identity);
-        Instantiate(enemies[0], new Vector3(-7f, 9.5f, 0f), Quaternion.identity);
-        yield return new WaitUntil(() => gameTime > 3f);
-        Instantiate(enemies[0], new Vector3(1f, 6.5f, 0f), Quaternion.identity);
-        Instantiate(enemies[0], new Vector3(2f, 7f, 0f), Quaternion.identity);
-        Instantiate(enemies[0], new Vector3(3f, 7.5f, 0f), Quaternion.identity);
-        Instantiate(enemies[0], new Vector3(4f, 8f, 0f), Quaternion.identity);
-        Instantiate(enemies[0], new Vector3(5f, 8.5f, 0f), Quaternion.identity);
-        Instantiate(enemies[0], new Vector3(6f, 9f, 0f), Quaternion.identity);
-        Instantiate(enemies[0], new Vector3(7f, 9.5f, 0f), Quaternion.identity);
-        yield return new WaitUntil(() => gameTime > 6f);
-        Instantiate(enemies[0], new Vector3(-1f, 6.5f, 0f), Quaternion.identity);
-        Instantiate(enemies[0], new Vector3(-2f, 7f, 0f), Quaternion.identity);
-        Instantiate(enemies[0], new Vector3(-3f, 7.5f, 0f), Quaternion.identity);
-        Instantiate(enemies[0], new Vector3(-4f, 8f, 0f), Quaternion.identity);
-        Instantiate(enemies[0], new Vector3(-5f, 8.5f, 0f), Quaternion.identity);
-        Instantiate(enemies[0], new Vector3(-6f, 9f, 0f), Quaternion.identity);
-        Instantiate(enemies[0], new Vector3(-7f, 9.5f, 0f), Quaternion.identity);
-        yield return new WaitUntil(() => gameTime > 9f);
-        Instantiate(enemies[0], new Vector3(1f, 6.5f, 0f), Quaternion.identity);
-        Instantiate(enemies[0], new Vector3(2f, 7f, 0f), Quaternion.identity);
-        Instantiate(enemies[0], new Vector3(3f, 7.5f, 0f), Quaternion.identity);
-        Instantiate(enemies[0], new Vector3(4f, 8f, 0f), Quaternion.identity);
-        Instantiate(enemies[0], new Vector3(5f, 8.5f, 0f), Quaternion.identity);
-        Instantiate(enemies[0], new Vector3(6f, 9f, 0f), Quaternion.identity);
-        Instantiate(enemies[0], new Vector3(7f, 9.5f, 0f), Quaternion.identity);
-        yield return new WaitUntil(() => gameTime > 15f);
+        yield return new WaitUntil(() => timeElapsed > 0.04f);
+        levelBackground = GameObject.Find("Background").GetComponent<LevelBackground>();
+
+        SpawnSevenBeelinersAtLeft();
+        yield return new WaitUntil(() => timeElapsed > 3f);
+        SpawnSevenBeelinersAtRight();
+        yield return new WaitUntil(() => timeElapsed > 6f);
+        SpawnSevenBeelinersAtLeft();
+        yield return new WaitUntil(() => timeElapsed > 9f);
+        SpawnSevenBeelinersAtRight();
+        yield return new WaitUntil(() => timeElapsed > 15f);
         Instantiate(enemies[1], new Vector3(7f, -7f, 0f), Quaternion.identity);
-        yield return new WaitUntil(() => bkgd.levelDist >= 1f);
+        yield return new WaitUntil(() => levelBackground.levelDistance >= 1f);
         Instantiate(bosses[1], new Vector3(0f, 0f, -11f), Quaternion.identity);
         yield return new WaitForSeconds(0.1f);
-        yield return new WaitUntil(() => GameObject.Find("Boss 2(Clone)").GetComponent<HPComponent>().currenthealth <= 0f);
+        
+        yield return new WaitUntil(() =>
+            GameObject.Find("Boss 2(Clone)").GetComponent<HPComponent>().currentHealth <= 0f);
+        
         yield return new WaitForSeconds(3);
-        bkgd.levelDist = 0f;
-        bkgd.transitionSpd *= 3f;
-        bkgd.transitionToThree = true;
-        yield return new WaitUntil(() => bkgd.levelDist >= 1f);
+        levelBackground.levelDistance = 0f;
+        levelBackground.transitionSpeed *= 3f;
+        levelBackground.transitioningToLevelThree = true;
+        
+        yield return new WaitUntil(() => levelBackground.levelDistance >= 1f);
+        
         int hPSet = playerHPTrack;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         level = 3;
         Debug.Log("Going to level 3!");
-        //StartCoroutine(CarryPlayerHP());
-        
-        while(true)
+
+        while (true)
         {
             if (player == null)
             {
@@ -200,16 +213,15 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                player.GetComponent<HPComponent>().currenthealth = hPSet;
+                player.GetComponent<HPComponent>().currentHealth = hPSet;
                 Debug.Log("Health should be set");
                 break;
             }
         }
     }
 
-    IEnumerator Level3()
+    private void SpawnRowOfFifteenBeeliners()
     {
-        yield return new WaitUntil(() => gameTime > 0.2f);
         Instantiate(enemies[0], new Vector3(-7f, 7f, 0f), Quaternion.identity);
         Instantiate(enemies[0], new Vector3(-6f, 7f, 0f), Quaternion.identity);
         Instantiate(enemies[0], new Vector3(-5f, 7f, 0f), Quaternion.identity);
@@ -225,23 +237,10 @@ public class GameManager : MonoBehaviour
         Instantiate(enemies[0], new Vector3(5f, 7f, 0f), Quaternion.identity);
         Instantiate(enemies[0], new Vector3(6f, 7f, 0f), Quaternion.identity);
         Instantiate(enemies[0], new Vector3(7f, 7f, 0f), Quaternion.identity);
-        yield return new WaitUntil(() => gameTime > 1f);
-        Instantiate(enemies[0], new Vector3(-7f, 7f, 0f), Quaternion.identity);
-        Instantiate(enemies[0], new Vector3(-6f, 7f, 0f), Quaternion.identity);
-        Instantiate(enemies[0], new Vector3(-5f, 7f, 0f), Quaternion.identity);
-        Instantiate(enemies[0], new Vector3(-4f, 7f, 0f), Quaternion.identity);
-        Instantiate(enemies[0], new Vector3(-3f, 7f, 0f), Quaternion.identity);
-        Instantiate(enemies[0], new Vector3(-2f, 7f, 0f), Quaternion.identity);
-        Instantiate(enemies[0], new Vector3(-1f, 7f, 0f), Quaternion.identity);
-        Instantiate(enemies[0], new Vector3(0f, 7f, 0f), Quaternion.identity);
-        Instantiate(enemies[0], new Vector3(1f, 7f, 0f), Quaternion.identity);
-        Instantiate(enemies[0], new Vector3(2f, 7f, 0f), Quaternion.identity);
-        Instantiate(enemies[0], new Vector3(3f, 7f, 0f), Quaternion.identity);
-        Instantiate(enemies[0], new Vector3(4f, 7f, 0f), Quaternion.identity);
-        Instantiate(enemies[0], new Vector3(5f, 7f, 0f), Quaternion.identity);
-        Instantiate(enemies[0], new Vector3(6f, 7f, 0f), Quaternion.identity);
-        Instantiate(enemies[0], new Vector3(7f, 7f, 0f), Quaternion.identity);
-        yield return new WaitUntil(() => gameTime > 7f);
+    }
+
+    private void SpawnEightBarrellersStaggered()
+    {
         Instantiate(enemies[1], new Vector3(-7f, -7f, 0f), Quaternion.identity);
         Instantiate(enemies[1], new Vector3(-5f, -8f, 0f), Quaternion.identity);
         Instantiate(enemies[1], new Vector3(-3f, -9f, 0f), Quaternion.identity);
@@ -250,7 +249,10 @@ public class GameManager : MonoBehaviour
         Instantiate(enemies[1], new Vector3(3f, -12f, 0f), Quaternion.identity);
         Instantiate(enemies[1], new Vector3(5f, -13f, 0f), Quaternion.identity);
         Instantiate(enemies[1], new Vector3(7f, -14f, 0f), Quaternion.identity);
-        yield return new WaitUntil(() => gameTime > 13f);
+    }
+
+    private void SpawnSevenBarrellersAligned()
+    {
         Instantiate(enemies[1], new Vector3(-6f, -7f, 0f), Quaternion.identity);
         Instantiate(enemies[1], new Vector3(-4f, -7f, 0f), Quaternion.identity);
         Instantiate(enemies[1], new Vector3(-2f, -7f, 0f), Quaternion.identity);
@@ -258,7 +260,19 @@ public class GameManager : MonoBehaviour
         Instantiate(enemies[1], new Vector3(2f, -7f, 0f), Quaternion.identity);
         Instantiate(enemies[1], new Vector3(4f, -7f, 0f), Quaternion.identity);
         Instantiate(enemies[1], new Vector3(6f, -7f, 0f), Quaternion.identity);
-        yield return new WaitUntil(() => gameTime > 16f);
+    }
+
+    IEnumerator Level3()
+    {
+        yield return new WaitUntil(() => timeElapsed > 0.04f);
+        SpawnRowOfFifteenBeeliners();
+        yield return new WaitUntil(() => timeElapsed > 1f);
+        SpawnRowOfFifteenBeeliners();
+        yield return new WaitUntil(() => timeElapsed > 7f);
+        SpawnEightBarrellersStaggered();
+        yield return new WaitUntil(() => timeElapsed > 13f);
+        SpawnSevenBarrellersAligned();
+        yield return new WaitUntil(() => timeElapsed > 16f);
         Instantiate(bosses[2], new Vector3(0f, -10f, 0f), Quaternion.identity);
     }
 }

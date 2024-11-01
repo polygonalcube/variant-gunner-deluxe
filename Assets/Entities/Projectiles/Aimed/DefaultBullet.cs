@@ -1,12 +1,19 @@
 using UnityEngine;
 
+[RequireComponent(typeof(MoveComponent))]
+
 public class DefaultBullet : MonoBehaviour
 {
-    public MoveComponent mov;
+    private MoveComponent mover;
+
+    void Awake()
+    {
+        mover = GetComponent<MoveComponent>();
+    }
     
     void Update()
     {
-        mov.ResetZ();
-        mov.MoveAng(Vector3.up);
+        mover.MoveAng(Vector3.up);
+        mover.ResetZ();
     }
 }

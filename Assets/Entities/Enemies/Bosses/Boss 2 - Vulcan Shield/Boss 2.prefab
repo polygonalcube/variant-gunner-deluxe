@@ -18,9 +18,10 @@ GameObject:
   - component: {fileID: -3740008623368057172}
   - component: {fileID: -729446112674794010}
   - component: {fileID: -4934415194379775005}
+  - component: {fileID: 8112889553858723094}
   m_Layer: 6
   m_Name: Boss 2
-  m_TagString: Untagged
+  m_TagString: Boss 2
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -83,17 +84,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c70190461c06e0c10a9e4b0b4d9344b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletOrigin: {fileID: 0}
-  healthManager: {fileID: 0}
-  hurtbox: {fileID: 0}
-  moveComponent: {fileID: 0}
   entranceSpeed: 5
-  finalPos: {x: 0, y: 0, z: 0}
+  finalPosition: {x: 0, y: 0, z: 0}
   anim: {fileID: 343523653229460269}
-  timer: 0
-  timerSet: 3
+  stateChangeTimerSet: 3
   bulletCount: 60
-  playerTransform: {fileID: 0}
   shields:
   - {fileID: 343523651993360701}
   - {fileID: 343523652724193545}
@@ -153,7 +148,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d7537ecda57381cd94fe67f3edab18c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currenthealth: 0
+  currentHealth: 0
   maxHealth: 150
   healthStartsAtMax: 1
 --- !u!114 &2172650018331252218
@@ -224,6 +219,18 @@ MonoBehaviour:
   maximumSpeed: {x: 1, y: 0, z: 0}
   acceleration: 0.25
   deceleration: 0
+--- !u!114 &8112889553858723094
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 343523652250961919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0623a484fea444488c98ae75624230e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &343523653721254357
 GameObject:
   m_ObjectHideFlags: 0

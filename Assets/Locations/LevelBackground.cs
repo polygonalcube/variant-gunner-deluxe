@@ -2,28 +2,33 @@ using UnityEngine;
 
 public class LevelBackground : MonoBehaviour
 {
-    public Vector3[] levelPos; // 1 = -200,-10,500 // 2 = 0,0,85 // 3 = 0,0,25
-    public Vector3[] levelEul; // 1 = 0,0,0 // 2 = -90,0,0
-    public float levelDist;
-    public float transitionSpd;
-    public bool transitionToThree = false;
+    [SerializeField] private Vector3[] levelPositions = { new(-200f, -10f, 500f), new(0f, 0f, 85f), new(0f, 0f, 25f) };
+    [SerializeField] private Vector3[] levelEulerAngles = { new(0f, 0f, 0f), new(-90f, 0f, 0f), new(-90f, 0f, 0f) };
+    [HideInInspector] public float levelDistance;
+    public float transitionSpeed = 0.05f;
+    [HideInInspector] public bool transitioningToLevelThree;
 
-    void Update()
+    private void Update()
     {
-        if (transitionToThree)
+        if (transitioningToLevelThree)
         {
-            transform.position = Vector3.Lerp(levelPos[1], levelPos[2], levelDist);
-            transform.eulerAngles = Vector3.Slerp(levelEul[1], levelEul[2], levelDist);
+            TransitionToArea(levelPositions[1], levelPositions[2], levelEulerAngles[1], levelEulerAngles[2]);
         }
         else
         {
-            transform.position = Vector3.Lerp(levelPos[0], levelPos[1], levelDist);
-            transform.eulerAngles = Vector3.Slerp(levelEul[0], levelEul[1], levelDist);
+            TransitionToArea(levelPositions[0], levelPositions[1], levelEulerAngles[0], levelEulerAngles[1]);
         }
 
         if (GameManager.gm.level >= 2)
         {
-            levelDist += transitionSpd * Time.deltaTime;
+            levelDistance += transitionSpeed * Time.deltaTime;
         }
+    }
+
+    private void TransitionToArea(Vector3 previousPosition, Vector3 nextPosition, Vector3 previousEulerAngles,
+        Vector3 nextEulerAngles)
+    {
+        transform.position = Vector3.Lerp(previousPosition, nextPosition, levelDistance);
+        transform.eulerAngles = Vector3.Slerp(previousEulerAngles, nextEulerAngles, levelDistance);
     }
 }

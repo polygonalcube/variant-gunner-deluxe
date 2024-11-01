@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class HPComponent : MonoBehaviour
 {
-    public int currenthealth;
+    public int currentHealth;
     public int maxHealth;
 
     public bool healthStartsAtMax = true;
@@ -12,27 +12,27 @@ public class HPComponent : MonoBehaviour
     {
         if (healthStartsAtMax)
         {
-            currenthealth = maxHealth;
+            currentHealth = maxHealth;
         }
     }
 
     public void ChangeHealth(int amount)
     {
-        currenthealth = Mathf.Clamp(currenthealth - amount, 0, maxHealth);
+        currentHealth = Mathf.Clamp(currentHealth - amount, 0, maxHealth);
     }
     
     public void Heal(int amount)
     {
-        currenthealth = Mathf.Clamp(currenthealth + amount, 0, maxHealth);
+        currentHealth = Mathf.Clamp(currentHealth + amount, 0, maxHealth);
     }
 
     public bool IsAlive()
     {
-        return currenthealth > 0;
+        return currentHealth > 0;
     }
     
     public bool IsDead()
     {
-        return currenthealth <= 0;
+        return currentHealth <= 0;
     }
 }

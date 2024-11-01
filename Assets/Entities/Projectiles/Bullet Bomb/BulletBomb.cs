@@ -1,33 +1,37 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+
+[RequireComponent(typeof(MoveComponent))]
 
 public class BulletBomb : MonoBehaviour
 {
-    public MoveComponent mov;
+    private MoveComponent mover;
+    
     public ShootComponent outer;
     public ShootComponent mid;
     public ShootComponent inner;
 
-    public int bulletCount;
+    private int bulletCount = 20;
 
-    Transform player;
+    private Transform playerTransform;
 
-    void Start()
+    void Awake()
     {
-        GameObject goPlayer = GameObject.Find("Player");
-        if (goPlayer != null)
+        mover = GetComponent<MoveComponent>();
+        
+        GameObject playerGameObject = GameObject.Find("Player");
+        if (playerGameObject != null)
         {
-            player = GameObject.Find("Player").transform;
+            playerTransform = GameObject.Find("Player").transform;
         }
     }
 
     void Update()
     {
-        mov.Move(Vector3.down);
-        if (player != null)
+        mover.Move(Vector3.zero);
+        
+        if (playerTransform != null)
         {
-            if (transform.position.y < player.position.y)
+            if (Mathf.Abs(transform.position.y - playerTransform.position.y) <= 0.13f)
             {
                 for (int i = 0; i < bulletCount; i++)
                 {

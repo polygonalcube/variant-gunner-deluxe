@@ -1,8 +1,8 @@
-using System;
 using UnityEngine;
 
 [RequireComponent(typeof(EnemyMethodsComponent))]
 [RequireComponent(typeof(HPComponent))]
+[RequireComponent(typeof(HurtComponent))]
 [RequireComponent(typeof(MoveComponent))]
 [RequireComponent(typeof(ShootComponent))]
 
@@ -16,16 +16,16 @@ public class DoomMecha : MonoBehaviour
     private HPComponent healthManager;
     private HurtComponent hurtbox;
     private MoveComponent moveComponent;
-    private ShootComponent vulcan;
+    private ShootComponent shooter;
 
-    public float entranceSpeed;
-    public Vector3 entranceAngle;
-    public Vector3 finalPos;
-    public Animator anim;
-    public float timer;
-    int cycle;
-    public float timerSet;
-    public float exitTimerSet;
+    [SerializeField] private float entranceSpeed = 200f;
+    [SerializeField] private Vector3 entranceAngle = new(-50f, -30f, 0f);
+    [SerializeField] private Vector3 finalPosition = Vector3.zero;
+    [SerializeField] private Animator animator;
+    private float stateChangeTimer;
+    private int cycle;
+    [SerializeField] private float stateChangeTimerSet = 1f;
+    [SerializeField] private float exitTimerSet = 3f;
 
     private Transform playerTransform;
 
@@ -45,14 +45,9 @@ public class DoomMecha : MonoBehaviour
         healthManager = GetComponent<HPComponent>();
         hurtbox = GetComponent<HurtComponent>();
         moveComponent = GetComponent<MoveComponent>();
-        vulcan = GetComponent<ShootComponent>();
+        shooter = GetComponent<ShootComponent>();
 
         playerTransform = enemyMethods.FindPlayer()?.transform;
-    }
-
-    private void Start()
-    {
-        
     }
 
     void Update()
@@ -60,22 +55,22 @@ public class DoomMecha : MonoBehaviour
         switch (currentState)
         {
             case States.Entering:
-                transform.position = Vector3.MoveTowards(transform.position, finalPos, entranceSpeed * Time.deltaTime);
+                transform.position = Vector3.MoveTowards(transform.position, finalPosition, entranceSpeed * Time.deltaTime);
                 transform.eulerAngles = entranceAngle;
 
-                if (transform.position == finalPos)
+                if (transform.position == finalPosition)
                 {
-                    transform.eulerAngles = new Vector3(0, 0, 0);
-                    timer = timerSet;
+                    transform.eulerAngles = Vector3.zero;
+                    stateChangeTimer = stateChangeTimerSet;
                     currentState = States.Stalling;
                 }
 
                 break;
             case States.Stalling:
-                anim.Play("Idle");
-                timer -= Time.deltaTime;
+                animator.Play("Idle");
+                stateChangeTimer -= Time.deltaTime;
 
-                if (timer <= 0)
+                if (stateChangeTimer <= 0)
                 {
                     currentState = States.Attacking;
                 }
@@ -84,7 +79,7 @@ public class DoomMecha : MonoBehaviour
             case States.Attacking:
                 if (playerTransform == null)
                 {
-                    playerTransform = enemyMethods.FindPlayer().transform;
+                    playerTransform = enemyMethods.FindPlayer()?.transform;
                 }
                 
                 if (playerTransform?.position.x < transform.position.x - 0.1f)
@@ -100,49 +95,42 @@ public class DoomMecha : MonoBehaviour
                     moveComponent.Move(Vector3.zero);
                 }
 
-                Vector3 currentPos = transform.position;
-                Vector3 currentEuler = transform.eulerAngles;
-                transform.position = new Vector3(vulcan.shotOrigin.position.x, vulcan.shotOrigin.position.y, 0f);
-                transform.LookAt(playerTransform?.transform, Vector3.up);
-                Vector3 pointer = transform.eulerAngles;
-                transform.position = currentPos;
-                transform.eulerAngles = currentEuler;
-
-                if (vulcan.shotTimer <= 0)
+                Vector3 angleToPlayer = enemyMethods.AimAtPlayer(shooter.shotOrigin);
+                if (shooter.shotTimer <= 0)
                 {
                     for (int i = 0; i < 5 - cycle; i++)
                     {
-                        vulcan.shotAngle = pointer.x - 270f + ((float)(i - (2f - (0.5f * (float)cycle))) * 15f);
-                        if (playerTransform?.position.x > vulcan.shotOrigin.position.x)
+                        shooter.shotAngle = angleToPlayer.x - 270f + ((float)(i - (2f - (0.5f * (float)cycle))) * 15f);
+                        if (playerTransform?.position.x > shooter.shotOrigin.position.x)
                         {
-                            vulcan.shotAngle = -vulcan.shotAngle;
+                            shooter.shotAngle = -shooter.shotAngle;
                         }
 
-                        vulcan.ShootAng(vulcan.bulletSpeedAng);
-                        vulcan.shotTimer = 0f;
+                        shooter.ShootAng(shooter.bulletSpeedAng);
+                        shooter.shotTimer = 0f;
                     }
 
-                    vulcan.shotTimer = vulcan.shotTimerSet;
+                    shooter.shotTimer = shooter.shotTimerSet;
                     cycle = (int)Mathf.Repeat(cycle + 1, 2);
                 }
 
-                anim.Play("Shoot");
+                animator.Play("Shoot");
 
                 if (healthManager.IsDead())
                 {
-                    timer = exitTimerSet;
+                    stateChangeTimer = exitTimerSet;
                     hurtbox.isActive = false;
                     currentState = States.Dying;
                 }
 
                 break;
             case States.Dying:
-                anim.Play("Entrance");
+                animator.Play("Entrance");
                 
                 transform.eulerAngles += new Vector3(5f, 5f, 5f) * Time.deltaTime;
                 
-                timer -= Time.deltaTime;
-                if (timer <= 0)
+                stateChangeTimer -= Time.deltaTime;
+                if (stateChangeTimer <= 0)
                 {
                     GameManager.gm.level = 2;
                     Debug.Log("Going to level 2!");

@@ -20,6 +20,7 @@ GameObject:
   - component: {fileID: 6633629432536909631}
   - component: {fileID: 6845037770009194829}
   - component: {fileID: 7473288281277904184}
+  - component: {fileID: 6788618059369829458}
   m_Layer: 6
   m_Name: Barreler Enemy
   m_TagString: Player
@@ -85,11 +86,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec39e7078a1bf7b4498730da85a3b7f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movEnter: {fileID: 6633629432536909631}
-  movAttack: {fileID: 6845037770009194829}
-  gun: {fileID: 4240974858904094585}
-  player: {fileID: 0}
-  state: 0
+  moveComponentEnter: {fileID: 6633629432536909631}
+  moveComponentAttack: {fileID: 6845037770009194829}
   attackMoveDirection: {x: 0, y: 0, z: 0}
 --- !u!114 &4240974858904094584
 MonoBehaviour:
@@ -103,7 +101,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d7537ecda57381cd94fe67f3edab18c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currenthealth: 0
+  currentHealth: 0
   maxHealth: 15
   healthStartsAtMax: 1
 --- !u!114 &4240974858904094587
@@ -233,6 +231,18 @@ MonoBehaviour:
   - 16
   - -16
   - 16
+--- !u!114 &6788618059369829458
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4240974858904094590}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0623a484fea444488c98ae75624230e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4240974860176151684
 GameObject:
   m_ObjectHideFlags: 0

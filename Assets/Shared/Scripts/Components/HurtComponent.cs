@@ -112,17 +112,6 @@ public class HurtComponent : MonoBehaviour
                     Destroy(gameObject);
                 }
             }
-
-            /*if (mr != null && !hasIFrames)
-            {
-                mr.SetActive(false);
-            }*/
-        }
-        else
-        {
-            /*Debug.Log(gameObject.name + "'s HurtComponent collider check results: " + 
-                      dangerousLayers.Contains(otherCollider) + ", " + 
-                      otherCollider.gameObject.TryGetComponent<HitComponent>(out HitComponent hit));*/
         }
     }
 }

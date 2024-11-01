@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class DestroyOnContact : MonoBehaviour
@@ -14,7 +13,7 @@ public class DestroyOnContact : MonoBehaviour
 
     void OnTriggerEnter(Collider col)
     {
-        if (layers.Contains(col))// (layers.value & 1 << col.gameObject.layer) == 1 << col.gameObject.layer)
+        if (layers.Contains(col))
         {
             StartCoroutine(DestroyNextFrame());
         }

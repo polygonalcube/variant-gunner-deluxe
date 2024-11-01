@@ -135,10 +135,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e6fb1e943447a746a6a7bc09f7a2907, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mov: {fileID: 5945543565050916209}
-  doc: {fileID: -5635982358329954705}
-  explosion: {fileID: 3885894640142890332, guid: 7d7dcdca3e03f0cf287e42e575b7bd3a, type: 3}
-  exploLen: 1
+  explosionPrefab: {fileID: 3885894640142890332, guid: 7d7dcdca3e03f0cf287e42e575b7bd3a, type: 3}
+  explosionDuration: 1
 --- !u!114 &5945543565050916209
 MonoBehaviour:
   m_ObjectHideFlags: 0
