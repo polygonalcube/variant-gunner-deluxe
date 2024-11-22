@@ -7,6 +7,14 @@ using UnityEngine.SceneManagement;
 
 public class DoppleBuster : MonoBehaviour
 {
+    /// <summary>
+    /// The logic for the Dopple Buster boss's attacks.
+    ///
+    /// The boss should move horizontally according to the player's position, and shoot at set intervals. After a
+    /// certain amount of time passes, the boss should stop moving horizontally, stop shooting, and position itself
+    /// veritcally. After this, the first pattern should resume.
+    /// </summary>
+    
     private EnemyMethodsComponent enemyMethods;
     private HPComponent healthManager;
     private HurtComponent hurtbox;

@@ -2,6 +2,13 @@ using UnityEngine;
 
 public class LevelBackground : MonoBehaviour
 {
+    /// <summary>
+    /// The logic for the transitions between Stages 1 & 2 and Stages 2 & 3.
+    ///
+    /// For the first transition, the background rotates towards the arena of the second boss fight. For the second, the
+    /// background moves to create the illusion of progressing towards the hideout.
+    /// </summary>
+    
     [SerializeField] private Vector3[] levelPositions = { new(-200f, -10f, 500f), new(0f, 0f, 85f), new(0f, 0f, 25f) };
     [SerializeField] private Vector3[] levelEulerAngles = { new(0f, 0f, 0f), new(-90f, 0f, 0f), new(-90f, 0f, 0f) };
     [HideInInspector] public float levelDistance;

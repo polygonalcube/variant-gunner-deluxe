@@ -8,6 +8,13 @@ using UnityEngine;
 
 public class VulcanShield : MonoBehaviour
 {
+    /// <summary>
+    /// The logic for the Vulcan Shield boss's attacks.
+    ///
+    /// The boss should move horizontally according to the player's position, and shoot at set intervals. When the boss
+    /// moves, it should be invulnerable, but when it shoots, it should be vulnerable.
+    /// </summary>
+    
     private EnemyMethodsComponent enemyMethods;
     private HPComponent healthManager;
     private HurtComponent hurtbox;

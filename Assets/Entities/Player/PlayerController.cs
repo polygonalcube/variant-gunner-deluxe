@@ -7,6 +7,12 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+    /// <summary>
+    /// The logic for the player character's behavior.
+    ///
+    /// The player character can move, and shoot 1 of 4 different weapons.
+    /// </summary>
+    
     [SerializeField] private HPComponent healthManager;
     [SerializeField] private MoveComponent mover;
 

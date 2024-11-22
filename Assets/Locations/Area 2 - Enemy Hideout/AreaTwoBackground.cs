@@ -2,6 +2,12 @@ using UnityEngine;
 
 public class AreaTwoBackground : MonoBehaviour
 {
+    /// <summary>
+    /// The logic for the scrolling background of Stage 3.
+    ///
+    /// Background segments move upwards and initiate the spawning of new ones before despawning themselves.
+    /// </summary>
+    
     [SerializeField] private float scrollSpeed = 15f;
     private bool newSectionSpawned;
 

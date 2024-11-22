@@ -2,6 +2,10 @@ using UnityEngine;
 
 public class ShootComponent : MonoBehaviour
 {
+    /// <summary>
+    /// A component that allows entities to instantiate and shoot prefabs at a specified speed.
+    /// </summary>
+    
     public GameObject bullet;
     public Transform shotOrigin;
     public float shotTimer;

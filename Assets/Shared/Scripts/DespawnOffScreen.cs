@@ -2,6 +2,10 @@ using UnityEngine;
 
 public class DespawnOffScreen : MonoBehaviour
 {
+    /// <summary>
+    /// A component that despawns the entity if it exceeds certain positions.
+    /// </summary>
+    
     public float[] bounds;
 
     void Update()

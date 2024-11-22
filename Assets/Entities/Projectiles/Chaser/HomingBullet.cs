@@ -5,6 +5,12 @@ using UnityEngine;
 
 public class HomingBullet : MonoBehaviour
 {
+    /// <summary>
+    /// The player's homing weapon.
+    ///
+    /// The projectile moves towards the closest enemy or boss. If no enemies exist, the bullets move upwards.
+    /// </summary>
+    
     private MoveComponent mover;
     private List<Transform> nearbyEnemies = new();
     private Transform nearestTarget;

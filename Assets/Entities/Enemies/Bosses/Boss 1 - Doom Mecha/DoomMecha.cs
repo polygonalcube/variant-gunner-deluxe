@@ -10,6 +10,8 @@ public class DoomMecha : MonoBehaviour
 {
     /// <summary>
     /// The logic for the Doom Mecha boss's attacks.
+    ///
+    /// The boss should move horizontally according to the player's position, and shoot at set intervals.
     /// </summary>
 
     private EnemyMethodsComponent enemyMethods;

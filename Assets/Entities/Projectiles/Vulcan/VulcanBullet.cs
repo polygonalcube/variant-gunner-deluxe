@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class VulcanBullet : MonoBehaviour
 {
+    /// <summary>
+    /// The player's vulcan weapon.
+    ///
+    /// The projectile travels straight upwards at a fast speed.
+    /// </summary>
+    
     private MoveComponent mover;
 
     void Awake()

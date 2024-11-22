@@ -2,6 +2,10 @@ using UnityEngine;
 
 public class EnemyMethodsComponent : MonoBehaviour
 {
+    /// <summary>
+    /// A component to hold methods common for enemies and bosses.
+    /// </summary>
+    
     public GameObject FindPlayer(string playerTagName = "Player")
     {
         return GameObject.FindGameObjectWithTag(playerTagName);

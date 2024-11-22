@@ -3,6 +3,12 @@ using UnityEngine;
 
 public class HPComponent : MonoBehaviour
 {
+    /// <summary>
+    /// A component for storing health values.
+    ///
+    /// Stores health values for entities. Entities handle death logic.
+    /// </summary>
+    
     public int currentHealth;
     public int maxHealth;
 

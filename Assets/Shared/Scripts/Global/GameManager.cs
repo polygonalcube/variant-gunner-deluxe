@@ -4,6 +4,10 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    /// <summary>
+    /// Stores variables and handles actions that need to be preserved between scenes.
+    /// </summary>
+    
     public static GameManager gm;
 
     public int score;

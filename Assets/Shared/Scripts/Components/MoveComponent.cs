@@ -2,6 +2,10 @@ using UnityEngine;
 
 public class MoveComponent : MonoBehaviour
 {
+    /// <summary>
+    /// Enables advanced movement for entities.
+    /// </summary>
+    
     public float currentSpeedX;
     public float currentSpeedY;
     public float currentSpeedZ;

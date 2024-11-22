@@ -5,6 +5,12 @@ using UnityEngine;
 
 public class BombBullet : MonoBehaviour
 {
+    /// <summary>
+    /// The player's bomb weapon.
+    ///
+    /// The projectile moves downwards slowly, and spawns an explosion on contact with an enemy, boss, or wall.
+    /// </summary>
+    
     private MoveComponent mover;
     private DestroyOnContact destroyOnContact;
     public GameObject explosionPrefab;

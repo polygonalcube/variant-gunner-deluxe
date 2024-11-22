@@ -4,6 +4,12 @@ using UnityEngine.UI;
 
 public class GUI : MonoBehaviour
 {
+    /// <summary>
+    /// The logic for the UI that displays during gameplay.
+    ///
+    /// Displays health and score, and shows game over text on death.
+    /// </summary>
+    
     public TextMeshProUGUI healthDisplay;
     public TextMeshProUGUI scoreDisplay;
     public Image gameOverImage;

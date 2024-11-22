@@ -3,6 +3,10 @@ using UnityEngine;
 
 public class DestroyOnContact : MonoBehaviour
 {
+    /// <summary>
+    /// A component that allows an entity to despawn on contact with objects in certain layers.
+    /// </summary>
+    
     public LayerMask layers;
     public bool willDie;
 

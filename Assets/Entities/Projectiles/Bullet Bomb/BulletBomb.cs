@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class BulletBomb : MonoBehaviour
 {
+    /// <summary>
+    /// The Dopple Buster's projectile.
+    ///
+    /// Moves vertically until its Y position (nearly) matches the player character's. After this, it spawns three rings
+    /// of bullets, then despawns.
+    /// </summary>
+    
     private MoveComponent mover;
     
     public ShootComponent outer;

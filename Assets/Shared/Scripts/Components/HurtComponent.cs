@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class HurtComponent : MonoBehaviour
 {
+    /// <summary>
+    /// A component that acts as a hurtbox.
+    ///
+    /// Acts as a damage enabler for entities. Triggers health decrementing logic if an HPComponent is attached.
+    /// </summary>
+    
     public HPComponent healthManager;
     public ScoreComponent scoreManager;
     

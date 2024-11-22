@@ -7,6 +7,13 @@ using UnityEngine;
 
 public class BarrelerEnemy : MonoBehaviour
 {
+    /// <summary>
+    /// The logic for the Barreler enemy's behavior.
+    ///
+    /// The enemy should emerge from the bottom of the screen and barrel towards the player at high speeds afterward,
+    /// leaving a trail of stationary bulelts behind it.
+    /// </summary>
+    
     private EnemyMethodsComponent enemyMethods;
     [SerializeField] private MoveComponent moveComponentEnter;
     [SerializeField] private MoveComponent moveComponentAttack;
